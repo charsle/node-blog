@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="charsle"><title>javascript Application Programming Interface · 前端码农日志</title><meta name="description" content="数组APIAPI: Application Programming Interface,应用程序编程接口;js中对象提供的方法就叫做API；instanceof检测一个对象是否是数组;(用来对付复杂数据类型;)// 简单数据类型 typeof ;A instanceof B  // A是不是B造出来"><meta name="keywords" content="Hexo,HTML,CSS,android,Linux"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">前端码农日志</a></h3></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">Home</a></li><li><a href="/archives">Arquivo</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/favicon.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>javascript Application Programming Interface</a></h3></div><div class="post-content"><p>数组API<br>API: Application Programming Interface,应用程序编程接口;<br>js中对象提供的方法就叫做API；<br>instanceof<br>检测一个对象是否是数组;(用来对付复杂数据类型;)<br>// 简单数据类型 typeof ;<br>A instanceof B  // A是不是B造出来的;<br>例：<br>    var arr = [1,2,3];<br>    console.log(arr instanceof Array); //arr属不属于Array类型;<br>Array.isArray( )<br>Array.isArray(参数); // 判断参数是不是数组,返回布尔值;<br>例：<br>    var arr = [1,2,3];<br>    var num = 123;<br>    console.log(Array.isArray(arr)); //true<br>    console.log(Array.isArray(num)); //false<br>toString( )<br>数组.toString(); // 把数组变成字符串,去除了[],内容用逗号链接;<br>例：<br>    var arr = [“aaa”,”bbb”,”ccc”];<br>    console.log(arr.toString());      //返回 aaa,bbb,ccc<br>valueOf( )<br>数组.valueOf();  //返回数组本身;<br>例：<br>    var arr = [“aaa”,”bbb”,”ccc”];<br>    console.log(arr.valueOf());      //返回数组本身  [“aaa”,”bbb”,”ccc”]<br>数组.join(参数)<br>数组.join(参数);  // 数组中的元素可以按照参数进行链接变成一个字符串;<br>console.log(arr.join());    //和toString()一样用逗号链接<br>console.log(arr.join(“|”)); //用参数链接<br>console.log(arr.join(“&amp;”)); //用参数链接<br>console.log(arr.join(“ “)); //如果是空格，真的用空格链接<br>console.log(arr.join(“”));  //空字符是无缝连接<br>数组元素的添加和删除<br>push( )和pop( )</p>
+<ol>
+<li>数组.push() //在数组的最末尾添加元素;</li>
+<li><p>数组.pop()  //不需要参数;在数组的最末尾删除一项;<br>例：<br> var arr = [1,2,3];<br> var aaa = arr.push(“abc”);//在数组的最末尾添加一个元素;<br> console.log(arr);//元素被修改了<br> console.log(aaa);//返回值是数组的长度;</p>
+<p> aaa = arr.pop();//不需要参数;在数组的最末尾删除一项;<br> console.log(arr);//元素被修改了<br> console.log(aaa);//被删除的那一项<br>unshift( )和shift( )</p>
+</li>
+<li>数组.unshift() //在数组的最前面添加一个元素;</li>
+<li><p>数组.shift()  //不需要参数;在数组的最前面删除一项;<br>例：<br> var arr = [1,2,3];<br> aaa = arr.unshift(“abc”);//在数组的最前面添加一个元素;<br> console.log(arr);//元素被修改了<br> console.log(aaa);//返回值是数组的长度;</p>
+<p> aaa = arr.shift();//不需要参数;在数组的最前面删除一项;<br> console.log(arr);//元素被修改了<br> console.log(aaa);//被删除的那一项<br>数组元素排序<br>reverse( )<br>reverse()   //翻转数组<br>例:<br> var arr1 = [1,2,3,4,5];<br> var aaa = arr1.reverse(); // [5,4,3,2,1]<br>sort( )<br>sort() // 数组中元素排序;(默认：从小到大)<br>   //  默认：按照首个字符的Unicode编码排序;如果第一个相同那么就比较第二个…<br>例：<br> var arr = [4,5,1,3,2,7,6];<br> var aaa =arr.sort();<br> console.log(aaa);          // [1, 2, 3, 4, 5, 6, 7]<br> console.log(aaa === arr);// true 原数组被排序了(冒泡排序)<br> //默认还可以排列字母;<br> var arr2 = [“c”,”e”,”d”,”a”,”b”];<br> var bbb = arr2.sort();<br> console.log(bbb);         // [“a”, “b”, “c”, “d”, “e”]<br> console.log(bbb===arr2); // true 原数组被排序了(冒泡排序)</p>
+</li>
+</ol>
+<p>sort() //数值大小排序方法,需要借助回调函数;<br>例：<br>      var arr = [4,5,1,13,2,7,6];<br>      //回调函数里面返回值如果是：参数1-参数2;升幂；   参数2-参数1;降幂；<br>      arr.sort(function (a,b) {<br>        return a-b; //升序<br>        //return b-a; //降序<br>        //return b.value-a.value; //按照元素value属性的大小排序;<br>      });<br>      console.log(arr); // [1, 2, 4, 5, 6, 7, 13]<br>sort( )底层原理<br>    var aaa = bubbleSort([1,12,3], function (a,b) {<br>//        return a-b;//实参：array[j]-array[j+1]；<br>        return b-a;//实参：array[j+1]-array[j]；<br>    });<br>    console.log(aaa);</p>
+<pre><code>function bubbleSort(array,fn){
+    //外循环控制轮数，内循环控制次数，都是元素个数-1;
+    for(var i=0;i&lt;array.length-1;i++){ for(var=&quot;&quot; j=&quot;0;j&lt;array.length-1-i;j++){//次数优化，多比较一轮，少比较一次;&quot; 满足条件交换位置;=&quot;&quot; if(array[j]=&quot;&quot;&gt;array[j+1]){//大于升幂排序；否则降幂;
+            //a-b&gt;0  和  a&gt;b是一个意思;
+            //b-a&gt;0  和  a&lt;b是一个意思; if(array[j]-array[j+1]=&quot;&quot;&gt;0){//升幂排序
+</code></pre><p>//                if(array[j+1]-array[j]&gt;0){//降幂排序<br>                //把两个变量送到一个函数中;<br>                if(fn(array[j],array[j+1])&gt;0){<br>                    var temp = array[j];<br>                    array[j] = array[j+1];<br>                    array[j+1] = temp;<br>                }<br>            }<br>        }<br>        //返回数组<br>        return array;<br>    }<br><br>数组元素的操作<br>concat( )<br>数组1.concat(数组2); // 链接两个数组;<br>var arr1 = [1,2,3];<br>var arr2 = [“a”,”b”,”c”];<br>var arr3 = arr1.concat(arr2);<br>console.log(arr3)   //    [1, 2, 3, “a”, “b”, “c”]<br>slice( )<br>数组.slice(开始索引值，结束索引值);     //数组截取;<br>例 ：<br>      var arr = [1, 2, 3, “a”, “b”, “c”];<br>      console.log(arr.slice(3));            //从索引值为3截取到最后;[“a”, “b”, “c”]<br>      console.log(arr.slice(0,3));            //包左不包右;[1, 2, 3]<br>      console.log(arr.slice(-2));            //负数是后几个;[“b”, “c”]<br>      console.log(arr.slice(3,0));            //如果前面的比后面的大，那么就是[];[]<br>      console.log(arr);                          //原数组不被修改;[1, 2, 3, “a”, “b”, “c”]<br>splice( )<br>数组.splice(开始索引值，删除几个，替换内容1，替换内容2，…);  // 替换和删除;<br>                                                      //改变原数组;返回值是被删除/替换的内容<br>例:<br>    var arr = [1,2,3,4,5,6,”a”, “b”, “c”]<br>    arr.splice(5);        //从索引值为3截取到最后;(删除)<br>    console.log(arr);     // [1, 2, 3, 4, 5]<br>    arr.splice(1,2);    //(删除指定个数)从索引为1的开始删除2个<br>    console.log(arr);   //[1, 4, 5]</p>
+<p>//替换<br>    var arr = [1,2,3,4,5,6,”a”, “b”, “c”];<br>    console.log(arr.splice(3,3,”aaa”,”bbb”,”ccc”));    //(删除指定数并替换)<br>    console.log(arr);     // [1, 2, 3, “aaa”, “bbb”, “ccc”, “a”, “b”, “c”]<br>//    添加<br>    arr.splice(3,0,”aaa”,”bbb”,”ccc”);//(删除指定个数)<br>//<br>    console.log(arr);//截取或者替换之后的;   [1, 2, 3, “aaa”, “bbb”, “ccc”, “aaa”, “bbb”, “ccc”, “a”, “b”, “c”]<br>indexOf / lastIndexOf<br>数组.indexOf(元素);      // 给元素，查索引(从前往后)<br>数组.lastIndexOf(元素);  // 给元素，查索引(从后往前)<br>例：<br>    var arr = [“a”,”b”,”c”,”d”,”c”,”b”,”b”];<br>    console.log(arr.indexOf(“b”));        // 1 查到以后立刻返回<br>    console.log(arr.lastIndexOf(“b”));    // 6 找到以后立刻返回<br>    console.log(arr.indexOf(“xxx”));    // -1;  查不到就返回-1；<br>数组迭代(遍历)<br>every()<br>对数组中每一项运行回调函数，如果都返回true，every返回true，<br>如果有一项返回false，则停止遍历 every返回false；不写默认返回false<br>像保镖失误一次，游戏结束！！！<br>例：</p>
+<ol>
+<li><p>var arr = [111,222,333,444,555];<br>arr.every(function (a,b,c) {<br>  console.log(a);    //元素<br>  console.log(b);    //索引值<br>  console.log(c);    //数组本身;<br>  console.log(“—–”);    //数组本身;<br>  //数组中元素赋值：c[b] = 值;      a=有时候无法赋值;<br>  return true;<br>});</p>
+</li>
+<li><p>//every返回一个bool值，全部是true才是true；有一个是false，结果就是false<br>var bool = arr.every(function (element, index, array) {</p>
+<pre><code>//判断：我们定义所有元素都大于200;
+//if(element &gt; 100){
+if(element &gt; 200){
+    return true;
+}else{
+    return false;
+}
+</code></pre><p>})<br>alert(bool); //false<br>filter()<br>//   对数组中每一项运行回调函数，该函数返回结果是true的项组成的新数组<br>//     新数组是有老数组中的元素组成的，return为ture的项;<br>例：<br>var arr = [111,222,333,444,555];<br>var newArr = arr.filter(function (element, index, array) {</p>
+<pre><code>//只要是奇数，就组成数组;(数组中辨别元素)
+if(element%2 === 0){
+    return true;
+}else{
+    return false;
+}
+</code></pre><p>})</p>
+<p>console.log(newArr); // [222, 444]<br>forEach()<br>// 和for循环一样；没有返回值;<br>例：<br>var arr = [111,222,333,444,555];<br>var sum = 0;<br>var aaa = arr.forEach(function (element,index,array) {</p>
+<pre><code>console.log(element); // 输出数组中的每一个元素
+console.log(index); // 数组元素对应的索引值
+console.log(array); // 数组本身 [111, 222, 333, 444, 555]
+sum += element; //数组中元素求和;
+</code></pre><p>});<br>console.log(sum); // 数组元素加起来的和<br>console.log(aaa);//undefined；没有返回值 所以返回undefined<br>map()<br>//  对数组中每一项运行回调函数，返回该函数的结果组成的新数组<br>//    return什么新数组中就有什么; 不return返回undefined; 对数组二次加工<br>例：<br>var arr = [111,222,333,444,555];<br>var newArr = arr.map(function (element, index, array) {</p>
+<pre><code>if(index == 2){
+    return element; // 这里return了 所以下面返回的值是333
+}
+return element*100; // 返回的元素值都乘上100后的值
+</code></pre><p>})<br>console.log(newArr); // [11100, 22200, 333, 44400, 55500]<br>some()<br>//对数组中每一项运行回调函数，如果该函数对某一项返回true，则some返回true; 像杀手，有一个成功，就胜利了！！！<br>例：<br>var arr = [111,222,333,444,555];<br>var bool = arr.some(function (ele,i,array) {</p>
+<pre><code>//判断：数组中有3的倍数
+if(ele%3 == 0){
+    return true;
+}
+return false;
+</code></pre><p>})<br>alert(bool); //true ; 有一个成功就是true<br>数组清空</p>
+<ol>
+<li>arr.length = 0; // (不好，伪数组无法清空)</li>
+<li>arr.splice(0); // 伪数组没有这个方法;</li>
+<li>arr = [];     // 可以操作伪数组; (推荐!)</li>
+</ol>
+</li>
+</ol>
+<p>// 伪数组: 就是长的像数组，但是没有数组的方法;也不能添加和删除元素;<br>例： // arguments<br>        fn(111,222,333);<br>        function fn(){<br>            arguments.length = 0; // 无法清空 返回 [1, 2, 3]<br>           arguments.splice(0); // 会报错 arguments.splice is not a function<br>            arguments = []; // 可以清空,返回空数组[]<br>            console.log(arguments);<br>        }<br>数组案例<br>1.将一个字符串数组输出为|分割的形式，比如“刘备|张飞|关羽”。使用两种方式实现</p>
+<pre><code>var arr = [&quot;刘备&quot;,&quot;张飞&quot;,&quot;关羽&quot;];
+var separator = &quot;|&quot;;
+//通过for循环累加
+var str = arr[0];
+for(var i=1;i&lt;arr.length;i++){
+    str += separator+arr[i];
+}
+console.log(str); // 刘备|张飞|关羽
+//join()可以把数组中的元素链接成字符串;
+console.log(arr.join(&quot;|&quot;)); // 刘备|张飞|关羽
+</code></pre><p>2.将一个字符串数组的元素的顺序进行反转。[“a”, “b”, “c”, “d”] -&gt; [ “d”,”c”,”b”,”a”]。使用两种种方式实现。提示：第i个和第length-i-1个进行交换</p>
+<p>  // 数组.reverse() 方法<br>           var arr = [“a”, “b”, “c”, “d”];<br>           console.log(arr.reverse()); // [“d”, “c”, “b”, “a”]</p>
+<pre><code>//  三种：1.正向遍历，反向添加;  2.反向遍历，正向添加;   3.元数组元素交换位置;
+    for(var i=0;i&lt;arr.length/2;i++){
+        var temp = arr[i];
+        arr[i] = arr[arr.length-1-i];
+        arr[arr.length-1-i] = temp;
+    }
+    console.log(arr);
+</code></pre><p>3.工资的数组[1500, 1200, 2000, 2100, 1800],把工资超过2000的删除</p>
+<p>   var arr = [1500, 1200, 2000, 2100, 1800];<br>   //利用filter()形成一个数组;return true;组成的数组;<br>   var newArr = arr.filter(function (ele, i, array) {<br>       //2000以上返回false;<br>       if(ele&lt;2000){<br>           return true;<br>       }else{<br>           return false;<br>       }<br>   });<br>   console.log(newArr); // [1500, 1200, 1800]<br>4.[“c”, “a”, “z”, “a”, “x”, “a”]找到数组中每一个a出现的位置</p>
+<p>   var arr = [“c”, “a”, “z”, “a”, “x”, “a”];<br>   //遍历数组(for/while/do…while)    forEach();<br>   arr.forEach(function (ele, index, array) {<br>       //如果元素等于“a”，那么就输出索引值；<br>       if(“a” === ele){<br>           console.log(index);<br>       }<br>   });<br>5.编写一个方法去掉一个数组的重复元素 (数组去重)</p>
+<pre><code>var arr = [&quot;鸣人&quot;,&quot;鸣人&quot;,&quot;佐助&quot;,&quot;佐助&quot;,&quot;小樱&quot;,&quot;小樱&quot;];
+</code></pre><p>   //  方法1：  思路：定义一个新数组，遍历老数组，判断，如果新数组里面没有老数组的元素就添加，否则就不添加；<br>       var newArr = [];<br>       //遍历老数组<br>       arr.forEach(function (ele,index,array) {<br>           //检测老数组中的元素，如果新数组中存在就不添加了，不存在才添加;<br>           if(newArr.indexOf(ele) === -1){//不存在就添加;（去新数组中查找元素索引值，如果为-1就是没有）<br>               newArr.push(ele);<br>           }<br>       });<br>       console.log(newArr); // [“鸣人”, “佐助”, “小樱”]</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-01-28</span><i class="fa fa-tag"></i><a class="tag" href="/tags/array-javascript-api/" title="array, javascript, api">array, javascript, api </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://yoursite.com/2018/01/28/array/,前端码农日志,javascript Application Programming Interface,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2018/01/28/git-opeation/" title="Git 常用命令速查">Post Anterior</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/01/28/index/" title="数组操作第二部分">Próximo post</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

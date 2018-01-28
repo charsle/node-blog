@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="charsle"><title>数组操作第二部分 · 前端码农日志</title><meta name="description" content="数组arrayMax返回数组中的最大值。
+将Math.max()与扩展运算符 (…) 结合使用以获取数组中的最大值。
+const arrayMax = arr =&amp;gt; Math.max(…arr);// arrayMax([10, 1, 5]) -&amp;gt; 10arrayMin返回数组中的最小值"><meta name="keywords" content="Hexo,HTML,CSS,android,Linux"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">前端码农日志</a></h3></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">Home</a></li><li><a href="/archives">Arquivo</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/favicon.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>数组操作第二部分</a></h3></div><div class="post-content"><p>数组<br>arrayMax<br>返回数组中的最大值。</p>
+<p>将Math.max()与扩展运算符 (…) 结合使用以获取数组中的最大值。</p>
+<p>const arrayMax = arr =&gt; Math.max(…arr);<br>// arrayMax([10, 1, 5]) -&gt; 10<br>arrayMin<br>返回数组中的最小值。</p>
+<p>将Math.min()与扩展运算符 (…) 结合使用以获取数组中的最小值。</p>
+<p>const arrayMin = arr =&gt; Math.min(…arr);<br>// arrayMin([10, 1, 5]) -&gt; 1<br>chunk<br>将数组块划分为指定大小的较小数组。</p>
+<p>使用Array.from()创建新的数组, 这符合将生成的区块数。使用Array.slice()将新数组的每个元素映射到size长度的区块。如果原始数组不能均匀拆分, 则最终的块将包含剩余的元素。</p>
+<p>const chunk = (arr, size) =&gt;<br>Array.from({length: Math.ceil(arr.length / size)}, (v, i) =&gt; arr.slice(i <em> size, i </em> size + size));<br>// chunk([1,2,3,4,5], 2) -&gt; [[1,2],[3,4],[5]]<br>compact<br>从数组中移除 falsey 值。</p>
+<p>使用Array.filter()筛选出 falsey 值 (false、null、0、””、undefined和NaN).</p>
+<p>const compact = (arr) =&gt; arr.filter(Boolean);<br>// compact([0, 1, false, 2, ‘’, 3, ‘a’, ‘e’*23, NaN, ‘s’, 34]) -&gt; [ 1, 2, 3, ‘a’, ‘s’, 34 ]<br>countOccurrences<br>计算数组中值的出现次数。</p>
+<p>使用Array.reduce()在每次遇到数组中的特定值时递增计数器。</p>
+<p>const countOccurrences = (arr, value) =&gt; arr.reduce((a, v) =&gt; v === value ? a + 1 : a + 0, 0);<br>// countOccurrences([1,1,2,1,2,3], 1) -&gt; 3<br>deepFlatten<br>深拼合数组。</p>
+<p>使用递归。使用Array.concat()与空数组 ([]) 和跨页运算符 (…) 来拼合数组。递归拼合作为数组的每个元素。</p>
+<p>const deepFlatten = arr =&gt; [].concat(…arr.map(v =&gt; Array.isArray(v) ? deepFlatten(v) : v));<br>// deepFlatten([1,[2],[[3],4],5]) -&gt; [1,2,3,4,5]<br>difference<br>返回两个数组之间的差异。</p>
+<p>从b创建Set, 然后使用Array.filter() on 只保留a b中不包含的值.</p>
+<p>const difference = (a, b) =&gt; { const s = new Set(b); return a.filter(x =&gt; !s.has(x)); };<br>// difference([1,2,3], [1,2,4]) -&gt; [3]<br>distinctValuesOfArray<br>返回数组的所有不同值。</p>
+<p>使用 ES6 Set和…rest运算符放弃所有重复的值。</p>
+<p>const distinctValuesOfArray = arr =&gt; […new Set(arr)];<br>// distinctValuesOfArray([1,2,2,3,4,4,5]) -&gt; [1,2,3,4,5]<br>dropElements<br>移除数组中的元素, 直到传递的函数返回true。返回数组中的其余元素。 在数组中循环, 使用Array.shift()将数组的第一个元素除去, 直到函数的返回值为true。返回其余元素。</p>
+<p>const dropElements = (arr, func) =&gt; {<br>while (arr.length &gt; 0 &amp;&amp; !func(arr[0])) arr.shift();<br>return arr;<br>};<br>// dropElements([1, 2, 3, 4], n =&gt; n &gt;= 3) -&gt; [3,4]<br>everyNth<br>返回数组中的每个第 n 个元素。</p>
+<p>使用Array.filter()创建一个包含给定数组的每个第 n 个元素的新数组。</p>
+<p>const everyNth = (arr, nth) =&gt; arr.filter((e, i) =&gt; i % nth === 0);<br>// everyNth([1,2,3,4,5,6], 2) -&gt; [ 1, 3, 5 ]<br>filterNonUnique<br>筛选出数组中的非唯一值。</p>
+<p>对于只包含唯一值的数组, 请使用Array.filter()。</p>
+<p>const filterNonUnique = arr =&gt; arr.filter(i =&gt; arr.indexOf(i) === arr.lastIndexOf(i));<br>// filterNonUnique([1,2,2,3,4,4,5]) -&gt; [1,3,5]<br>flatten<br>拼合数组。</p>
+<p>使用Array.reduce()获取数组中的所有元素和concat()以拼合它们。</p>
+<p>const flatten = arr =&gt; arr.reduce((a, v) =&gt; a.concat(v), []);<br>// flatten([1,[2],3,4]) -&gt; [1,2,3,4]<br>flattenDepth<br>将数组向上拼合到指定深度。</p>
+<p>使用递归, 递减depth, 每层深度为1。使用Array.reduce()和Array.concat()来合并元素或数组。基本情况下, 对于等于1的depth停止递归。省略第二个元素,depth仅拼合到1的深度 (单个拼合)。</p>
+<p>const flattenDepth = (arr, depth = 1) =&gt;<br>depth != 1 ? arr.reduce((a, v) =&gt; a.concat(Array.isArray(v) ? flattenDepth(v, depth - 1) : v), [])<br>: arr.reduce((a, v) =&gt; a.concat(v), []);<br>// flattenDepth([1,[2],[[[3],4],5]], 2) -&gt; [1,2,[3],4,5]<br>groupby<br>根据给定函数对数组元素进行分组。</p>
+<p>使用Array.map()将数组的值映射到函数或属性名。使用Array.reduce()创建一个对象, 其中的键是从映射的结果生成的。</p>
+<p>const groupBy = (arr, func) =&gt;<br>arr.map(typeof func === ‘function’ ? func : val =&gt; val[func])<br>.reduce((acc, val, i) =&gt; { acc[val] = (acc[val] || []).concat(arr[i]); return acc; }, {});<br>// groupBy([6.1, 4.2, 6.3], Math.floor) -&gt; {4: [4.2], 6: [6.1, 6.3]}<br>// groupBy([‘one’, ‘two’, ‘three’], ‘length’) -&gt; {3: [‘one’, ‘two’], 5: [‘three’]}<br>head<br>返回列表的头。</p>
+<p>使用arr[0]可返回传递的数组的第一个元素。</p>
+<p>const head = arr =&gt; arr[0];<br>// head([1,2,3]) -&gt; 1<br>initial<br>返回除最后一个数组之外的所有元素。</p>
+<p>使用 “arr.slice(0,-1)” 返回数组的最后一个元素。</p>
+<p>const initial = arr =&gt; arr.slice(0, -1);<br>// initial([1,2,3]) -&gt; [1,2]<br>initializeArrayWithRange<br>初始化包含指定范围内的数字的数组。</p>
+<p>使用Array(end-start)创建所需长度的数组Array.map()以填充区域中所需的值。可以省略start以使用默认值0.</p>
+<p>const initializeArrayWithRange = (end, start = 0) =&gt;<br>Array.from({ length: end - start }).map((v, i) =&gt; i + start);<br>// initializeArrayWithRange(5) -&gt; [0,1,2,3,4]<br>initializeArrayWithValues<br>初始化并填充具有指定值的数组。</p>
+<p>使用Array(n)创建所需长度的数组,fill(v)以填充所需的值。可以省略value以使用默认值0.</p>
+<p>const initializeArrayWithValues = (n, value = 0) =&gt; Array(n).fill(value);<br>// initializeArrayWithValues(5, 2) -&gt; [2,2,2,2,2]<br>intersection<br>返回两个数组中存在的元素的列表。</p>
+<p>从b创建Set, 然后使用Array.filter()on a只保留b中包含的值.</p>
+<p>const intersection = (a, b) =&gt; { const s = new Set(b); return a.filter(x =&gt; s.has(x)); };<br>// intersection([1,2,3], [4,3,2]) -&gt; [2,3]<br>last<br>返回数组中的最后一个元素。</p>
+<p>使用arr.length – 1可计算给定数组的最后一个元素的索引并返回它。</p>
+<p>const last = arr =&gt; arr[arr.length - 1];<br>// last([1,2,3]) -&gt; 3<br>mapObject<br>使用函数将数组的值映射到对象, 其中键值对由原始值作为键和映射值组成。</p>
+<p>使用匿名内部函数范围来声明未定义的内存空间, 使用闭包来存储返回值。使用新的Array可将该数组与函数的映射放在其数据集上, 而逗号运算符返回第二个步骤, 而不需要从一个上下文移动到另一个环境 (由于关闭和操作顺序)。</p>
+<p>const mapObject = (arr, fn) =&gt;<br>(a =&gt; (a = [arr, arr.map(fn)], a[0].reduce( (acc,val,ind) =&gt; (acc[val] = a[1][ind], acc), {}) )) ( );<br>/<em><br>const squareIt = arr =&gt; mapObject(arr, a =&gt; a</em>a)<br>squareIt([1,2,3]) // { 1: 1, 2: 4, 3: 9 }<br>*/<br>nthElement<br>返回数组的第 n 个元素。</p>
+<p>使用Array.slice()可获取包含第 n 个元素的数组。如果索引超出界限, 则返回[]。省略第二个参数n, 以获取数组的第一个元素。</p>
+<p>const nthElement = (arr, n=0) =&gt; (n&gt;0? arr.slice(n,n+1) : arr.slice(n))[0];<br>// nthElement([‘a’,’b’,’c’],1) -&gt; ‘b’<br>// nthElement([‘a’,’b’,’b’],-3) -&gt; ‘a’<br>pick<br>从对象中选取对应于给定键的键值对。</p>
+<p>使用Array.reduce()将筛选/选取的密钥转换回具有相应键值对的对象 (如果在 obj 中存在该键)。</p>
+<p>const pick = (obj, arr) =&gt;<br>arr.reduce((acc, curr) =&gt; (curr in obj &amp;&amp; (acc[curr] = obj[curr]), acc), {});<br>// pick({ ‘a’: 1, ‘b’: ‘2’, ‘c’: 3 }, [‘a’, ‘c’]) -&gt; { ‘a’: 1, ‘c’: 3 }<br>pull<br>对原始数组进行变异, 以筛选出指定的值。</p>
+<p>使用Array.filter()和Array.includes()来拉出不需要的值。使用Array.length = 0可将传入的数组中的长度重置为零, 并将其设置为Array.push(), 以便仅使用所提取的值填充它。</p>
+<p>const pull = (arr, …args) =&gt; {<br>let pulled = arr.filter((v, i) =&gt; !args.includes(v));<br>arr.length = 0; pulled.forEach(v =&gt; arr.push(v));<br>};<br>// let myArray = [‘a’, ‘b’, ‘c’, ‘a’, ‘b’, ‘c’];<br>// pull(myArray, ‘a’, ‘c’);<br>// console.log(myArray) -&gt; [ ‘b’, ‘b’ ]<br>remove<br>从数组中移除给定函数返回false的元素. 使用Array.filter()查找返回 truthy 值的数组元素和Array.reduce()以使用Array.splice()删除元素。使用三参数 (func value, index, array调用函数).</p>
+<p>const remove = (arr, func) =&gt;<br>Array.isArray(arr) ? arr.filter(func).reduce((acc, val) =&gt; {<br>arr.splice(arr.indexOf(val), 1); return acc.concat(val);<br>}, [])<br>: [];<br>// remove([1, 2, 3, 4], n =&gt; n % 2 == 0) -&gt; [2, 4]<br>sample<br>返回数组中的随机元素。</p>
+<p>使用Math.random()生成一个随机数, 将它与length相乘, 并使用数学将其舍入到最接近的整数Math.floor()。此方法也适用于字符串。</p>
+<p>const sample = arr =&gt; arr[Math.floor(Math.random() * arr.length)];<br>// sample([3, 7, 9, 11]) -&gt; 9<br>shuffle<br>随机数组值的顺序。</p>
+<p>使用Array.sort()可在比较器中使用Math.random()重新排序元素。</p>
+<p>const shuffle = arr =&gt; arr.sort(() =&gt; Math.random() - 0.5);<br>// shuffle([1,2,3]) -&gt; [2,3,1]<br>similarity<br>返回两个数组中都显示的元素的数组。</p>
+<p>使用filter()可删除不属于values的值, 使用includes()确定.</p>
+<p>const similarity = (arr, values) =&gt; arr.filter(v =&gt; values.includes(v));<br>// similarity([1,2,3], [1,2,4]) -&gt; [1,2]<br>symmetricDifference<br>返回两个数组之间的对称差。</p>
+<p>从每个数组创建一个Set, 然后对它们中的每一个都使用Array.filter(), 以便只保留其他值中不包含的数值。</p>
+<p>const symmetricDifference = (a, b) =&gt; {<br>const sA = new Set(a), sB = new Set(b);<br>return […a.filter(x =&gt; !sB.has(x)), …b.filter(x =&gt; !sA.has(x))];<br>}<br>// symmetricDifference([1,2,3], [1,2,4]) -&gt; [3,4]<br>tail<br>返回数组中的所有元素, 除第一个。</p>
+<p>如果数组的length大于1, 则返回arr.slice(1), 否则返回整个数组。</p>
+<p>const tail = arr =&gt; arr.length &gt; 1 ? arr.slice(1) : arr;<br>// tail([1,2,3]) -&gt; [2,3]<br>// tail([1]) -&gt; [1]<br>take<br>返回一个数组, 其中 n 个元素从开始处移除。</p>
+<p>使用Array.slice()创建数组的切片, 其中包含从开始处取出的n元素。</p>
+<p>const take = (arr, n = 1) =&gt; arr.slice(0, n);<br>// take([1, 2, 3], 5) -&gt; [1, 2, 3]<br>// take([1, 2, 3], 0) -&gt; []<br>takeRight<br>返回一个数组, 其中 n 个元素从末尾移除。</p>
+<p>使用Array.slice()创建数组的切片, 其中包含从末尾取出的n元素。</p>
+<p>const takeRight = (arr, n = 1) =&gt; arr.slice(arr.length - n, arr.length);<br>// takeRight([1, 2, 3], 2) -&gt; [ 2, 3 ]<br>// takeRight([1, 2, 3]) -&gt; [3]<br>union<br>返回在两个数组中的任意一个中存在的每个元素。</p>
+<p>创建一个Set, 其中包含a和b的所有值, 并将其转换为数组。</p>
+<p>const union = (a, b) =&gt; Array.from(new Set([…a, …b]));<br>// union([1,2,3], [4,3,2]) -&gt; [1,2,3,4]<br>without<br>筛选出数组中具有指定值之一的元素。</p>
+<p>使用Array.filter()创建不包括的数组 (使用!Array.includes()) 所有给定值。</p>
+<p>const without = (arr, …args) =&gt; arr.filter(v =&gt; !args.includes(v));<br>// without([2, 1, 2, 3], 1, 2) -&gt; [3]<br>zip<br>创建基于原始数组中的位置分组的元素数组。</p>
+<p>使用Math.max.apply()获取参数中最长的数组。创建一个以该长度为返回值的数组, 并使用 map 函数创建一个分组元素的数组Array.from()如果参数数组的长度不同, 则在未找到任何值的情况下使用undefined。</p>
+<p>const zip = (…arrays) =&gt; {<br>const maxLength = Math.max(…arrays.map(x =&gt; x.length));<br>return Array.from({length: maxLength}).map((<em>, i) =&gt; {<br>return Array.from({length: arrays.length}, (</em>, k) =&gt; arrays[k][i]);<br>})<br>}<br>//zip([‘a’, ‘b’], [1, 2], [true, false]); -&gt; [[‘a’, 1, true], [‘b’, 2, false]]<br>//zip([‘a’], [1, 2], [true, false]); -&gt; [[‘a’, 1, true], [undefined, 2, false]]<br>浏览器<br>bottomVisible<br>如果页的底部可见, 则返回true, 否则为false。</p>
+<p>使用scrollY、scrollHeight和clientHeight来确定页面底部是否可见。</p>
+<p>const bottomVisible = () =&gt;<br>document.documentElement.clientHeight + window.scrollY &gt;= document.documentElement.scrollHeight || document.documentElement.clientHeight;<br>// bottomVisible() -&gt; true<br>currentURL<br>返回当前 URL。</p>
+<p>使用window.location.href获取当前 URL。</p>
+<p>const currentURL = () =&gt; window.location.href;<br>// currentUrl() -&gt; ‘<a href="https://google.com" target="_blank" rel="noopener">https://google.com</a>‘<br>elementIsVisibleInViewport<br>如果指定的元素在视区中可见, 则返回true, 否则为false。</p>
+<p>使用Element.getBoundingClientRect()和window.inner(Width|Height)值以确定给定元素在视区中是否可见。省略第二个参数以确定该元素是否完全可见, 或指定true以确定它是否部分可见。</p>
+<p>const elementIsVisibleInViewport = (el, partiallyVisible = false) =&gt; {<br>const { top, left, bottom, right } = el.getBoundingClientRect();<br>return partiallyVisible<br>? ((top &gt; 0 &amp;&amp; top &lt; innerHeight) || (bottom &gt; 0 &amp;&amp; bottom &lt; innerHeight)) &amp;&amp;<br>((left &gt; 0 &amp;&amp; left &lt; innerWidth) || (right &gt; 0 &amp;&amp; right &lt; innerWidth))<br>: top &gt;= 0 &amp;&amp; left &gt;= 0 &amp;&amp; bottom &lt;= innerHeight &amp;&amp; right &lt;= innerWidth;<br>};<br>// e.g. 100x100 viewport and a 10x10px element at position {top: -1, left: 0, bottom: 9, right: 10}<br>// elementIsVisibleInViewport(el) -&gt; false (not fully visible)<br>// elementIsVisibleInViewport(el, true) -&gt; true (partially visible)<br>getScrollPosition<br>返回当前页的滚动位置。</p>
+<p>如果已定义, 则使用pageXOffset和pageYOffset, 否则scrollLeft和scrollTop。可以省略el以使用window的默认值.</p>
+<p>const getScrollPosition = (el = window) =&gt;<br>({x: (el.pageXOffset !== undefined) ? el.pageXOffset : el.scrollLeft,<br>y: (el.pageYOffset !== undefined) ? el.pageYOffset : el.scrollTop});<br>// getScrollPosition() -&gt; {x: 0, y: 200}<br>getURLParameters<br>返回一个包含当前 URL 参数的对象。</p>
+<p>使用match()与适当的正则表达式来获取所有键值对,Array.reduce()可将它们映射并合并到单个对象中。将location.search作为要应用于当前url的参数传递.</p>
+<p>const getURLParameters = url =&gt;<br>url.match(/([^?=&amp;]+)(=([^&amp;]*))/g).reduce(<br>(a, v) =&gt; (a[v.slice(0, v.indexOf(‘=’))] = v.slice(v.indexOf(‘=’) + 1), a), {}<br>);<br>// getURLParameters(‘<a href="http://url.com/page?name=Adam&amp;surname=Smith" target="_blank" rel="noopener">http://url.com/page?name=Adam&amp;surname=Smith</a>‘) -&gt; {name: ‘Adam’, surname: ‘Smith’}<br>redirect<br>重定向到指定的 URL。</p>
+<p>使用window.location.href或window.location.replace()重定向到url。传递第二个参数以模拟链接单击 (true-默认值) 或 HTTP 重定向 (false).</p>
+<p>const redirect = (url, asLink = true) =&gt;<br>asLink ? window.location.href = url : window.location.replace(url);<br>// redirect(‘<a href="https://google.com" target="_blank" rel="noopener">https://google.com</a>‘)<br>scrollToTop<br>平滑滚动到页面顶部。</p>
+<p>使用document.documentElement.scrollTop或document.body.scrollTop从顶部获取距离。从顶部的距离的一小部分滚动。使用window.requestAnimationFrame()对滚动进行动画处理。</p>
+<p>const scrollToTop = () =&gt; {<br>const c = document.documentElement.scrollTop || document.body.scrollTop;<br>if (c &gt; 0) {<br>window.requestAnimationFrame(scrollToTop);<br>window.scrollTo(0, c - c / 8);<br>}<br>};<br>// scrollToTop()<br>日期<br>getDaysDiffBetweenDates<br>返回两个日期之间的差异 (以天为值)。</p>
+<p>计算Date对象之间的差异 (以天为)。</p>
+<p>const getDaysDiffBetweenDates = (dateInitial, dateFinal) =&gt; (dateFinal - dateInitial) / (1000 <em> 3600 </em> 24);<br>// getDaysDiffBetweenDates(new Date(“2017-12-13”), new Date(“2017-12-22”)) -&gt; 9<br>JSONToDate<br>将 JSON 对象转换为日期。</p>
+<p>使用Date(), 将 JSON 格式的日期转换为可读格式 (dd/mm/yyyy日)).</p>
+<p>const JSONToDate = arr =&gt; {<br>const dt = new Date(parseInt(arr.toString().substr(6)));<br>return <code>${ dt.getDate() }/${ dt.getMonth() + 1 }/${ dt.getFullYear() }</code><br>};<br>// JSONToDate(/Date(1489525200000)/) -&gt; “14/3/2017”<br>toEnglishDate<br>将日期从美国格式转换为英文格式。</p>
+<p>使用Date.toISOString()、split(‘T’)和replace()将日期从美式格式转换为英文格式。如果传递的时间不能转换为日期, 则抛出错误。</p>
+<p>const toEnglishDate  = (time) =&gt;<br>{try{return new Date(time).toISOString().split(‘T’)[0].replace(/-/g, ‘/‘)}catch(e){return}};<br>// toEnglishDate(‘09/21/2010’) -&gt; ‘21/09/2010’<br>功能<br>chainAsync<br>链异步函数。</p>
+<p>循环遍历包含异步事件的函数数组, 当每个异步事件完成时调用next。</p>
+<p>const chainAsync = fns =&gt; { let curr = 0; const next = () =&gt; fns<a href="next">curr++</a>; next(); };<br>/*<br>chainAsync([<br>  next =&gt; { console.log(‘0 seconds’); setTimeout(next, 1000); },<br>  next =&gt; { console.log(‘1 second’);  setTimeout(next, 1000); },<br>  next =&gt; { console.log(‘2 seconds’); }<br>])<br>compose<br>执行从右向左的函数组合。</p>
+<p>使用Array.reduce()执行从右向左的函数组合。最后一个 (最右边) 的函数可以接受一个或多个参数;其余的函数必须是一元的。</p>
+<p>const compose = (…fns) =&gt; fns.reduce((f, g) =&gt; (…args) =&gt; f(g(…args)));<br>/<em><br>const add5 = x =&gt; x + 5<br>const multiply = (x, y) =&gt; x </em> y<br>const multiplyAndAdd5 = compose(add5, multiply)<br>multiplyAndAdd5(5, 2) -&gt; 15<br>*/<br>curry<br>Curries a function.</p>
+<p>使用递归。如果提供的参数 (变量) 的数量足够, 请调用传递的函数args f。否则, 返回需要其余参数的扩充函数f。如果你想咖喱一个函数, 接受可变数目的参数 (如Math.min()), 可以选择将参数的个数传递到第二个参数arity(可变函数).</p>
+<p>const curry = (fn, arity = fn.length, …args) =&gt;<br>arity &lt;= args.length<br>? fn(…args)<br>: curry.bind(null, fn, arity, …args);<br>// curry(Math.pow)(2)(10) -&gt; 1024<br>// curry(Math.min, 3)(10)(50)(2) -&gt; 2<br>functionName<br>记录函数的名称。</p>
+<p>使用console.debug()和传递的方法的name属性将方法的名称记录到控制台的debug通道中。</p>
+<p>const functionName = fn =&gt; (console.debug(fn.name), fn);<br>// functionName(Math.max) -&gt; max (logged in debug channel of console)<br>pipe<br>执行从左向右的函数组合。</p>
+<p>使用Array.reduce()与扩展运算符 (…) 执行从左向右的函数组合。第一个 (最左边的) 函数可以接受一个或多个参数;其余的函数必须是一元的。</p>
+<p>const pipeFunctions = (…fns) =&gt; fns.reduce((f, g) =&gt; (…args) =&gt; g(f(…args)));<br>/<em><br>const add5 = x =&gt; x + 5<br>const multiply = (x, y) =&gt; x </em> y<br>const multiplyAndAdd5 = pipeFunctions(multiply, add5)<br>multiplyAndAdd5(5, 2) -&gt; 15<br>*/<br>promisify<br>转换异步函数以返回一个承诺。</p>
+<p>使用讨好返回一个返回调用原始函数的Promise的函数。使用…rest运算符传入所有参数。 在节点 8 + 中, 可以使用 util.promisify</p>
+<p>const promisify = func =&gt;<br>(…args) =&gt;<br>new Promise((resolve, reject) =&gt;<br>func(…args, (err, result) =&gt;<br>err ? reject(err) : resolve(result))<br>);<br>// const delay = promisify((d, cb) =&gt; setTimeout(cb, d))<br>// delay(2000).then(() =&gt; console.log(‘Hi!’)) -&gt; Promise resolves after 2s<br>runPromisesInSeries<br>运行一系列的承诺系列。</p>
+<p>使用Array.reduce()创建一个承诺链, 每个承诺在解决时返回下一个承诺。</p>
+<p>const runPromisesInSeries = ps =&gt; ps.reduce((p, next) =&gt; p.then(next), Promise.resolve());<br>// const delay = (d) =&gt; new Promise(r =&gt; setTimeout(r, d))<br>// runPromisesInSeries([() =&gt; delay(1000), () =&gt; delay(2000)]) -&gt; executes each promise sequentially, taking a total of 3 seconds to complete<br>sleep<br>延迟异步函数的执行。</p>
+<p>延迟执行async函数的一部分, 将其放入休眠状态, 返回Promise.</p>
+<p>const sleep = ms =&gt; new Promise(resolve =&gt; setTimeout(resolve, ms));<br>/<em><br>async function sleepyWork() {<br>  console.log(‘I\’m going to sleep for 1 second.’);<br>  await sleep(1000);<br>  console.log(‘I woke up after 1 second.’);<br>}
+</em>/<br>数学<br>arrayAverage<br>返回数字数组的平均值。</p>
+<p>使用Array.reduce()将每个值添加到累加器中, 并以0的值初始化, 除以数组的length。</p>
+<p>const arrayAverage = arr =&gt; arr.reduce((acc, val) =&gt; acc + val, 0) / arr.length;<br>// arrayAverage([1,2,3]) -&gt; 2<br>arraySum<br>返回一个数字数组的总和。</p>
+<p>使用Array.reduce()将每个值添加到累加器中, 并以0值初始化.</p>
+<p>const arraySum = arr =&gt; arr.reduce((acc, val) =&gt; acc + val, 0);<br>// arraySum([1,2,3,4]) -&gt; 10<br>collatz<br>应用 Collatz 算法。</p>
+<p>如果n是偶数, 则返回n/2。否则返回3n+1.</p>
+<p>const collatz = n =&gt; (n % 2 == 0) ? (n / 2) : (3 * n + 1);<br>// collatz(8) –&gt; 4<br>// collatz(5) –&gt; 16<br>collatz<br>将数字转换为数字数组。</p>
+<p>将数字转换为字符串, 在 ES6 ([…string]) 中使用扩展运算符生成数组。使用Array.map()和parseInt()将每个值转换为整数。</p>
+<p>const digitize = n =&gt; […’’+n].map(i =&gt; parseInt(i));<br>// digitize(2334) -&gt; [2, 3, 3, 4]<br>digitize<br>返回两点之间的距离。</p>
+<p>使用Math.hypot()计算两个点之间的欧氏距离。</p>
+<p>const distance = (x0, y0, x1, y1) =&gt; Math.hypot(x1 - x0, y1 - y0);<br>// distance(1,1, 2,3) -&gt; 2.23606797749979<br>distance<br>计算数字的阶乘。</p>
+<p>使用递归。如果n小于或等于1, 则返回1。否则, 返回n的乘积和n – 1的阶乘。如果n为负数, 则引发异常。</p>
+<p>const factorial = n =&gt;<br>n &lt; 0 ? (() =&gt; { throw new TypeError(‘Negative numbers are not allowed!’) })()<br>: n &lt;= 1 ? 1 : n * factorial(n - 1);<br>// factorial(6) -&gt; 720<br>fibonacci<br>生成一个数组, 包含斐波那契数列, 直到第 n 个项。</p>
+<p>创建一个指定长度的空数组, 初始化前两个值 (0和1)。使用Array.reduce()可将值添加到数组中, 方法是使用前两个值的总和, 但前两个数值除外。</p>
+<p>const fibonacci = n =&gt;<br>Array(n).fill(0).reduce((acc, val, i) =&gt; acc.concat(i &gt; 1 ? acc[i - 1] + acc[i - 2] : i), []);<br>// fibonacci(5) -&gt; [0,1,1,2,3]<br>gcd<br>计算两个数字之间最大的公共除数。</p>
+<p>使用递归。基本情况是当y等于0时。在这种情况下, 返回x。否则, 返回y的 GCD 和除法的其余部分x/y.</p>
+<p>const gcd = (x, y) =&gt; !y ? x : gcd(y, x % y);<br>// gcd (8, 36) -&gt; 4<br>hammingDistance<br>计算两个值之间的汉明距离。</p>
+<p>使用 XOR 运算符 (^) 可查找两个数字之间的位差, 使用toString(2)转换为二进制字符串。使用match(/1/g)计算并返回字符串中1的数目。.</p>
+<p>const hammingDistance = (num1, num2) =&gt;<br>((num1 ^ num2).toString(2).match(/1/g) || ‘’).length;<br>// hammingDistance(2,3) -&gt; 1<br>isDivisible<br>检查第一个数值参数是否可被另一个数字变量整除。</p>
+<p>使用模数运算符 (%) 检查余数是否等于0.</p>
+<p>const isDivisible = (dividend, divisor) =&gt; dividend % divisor === 0;<br>// isDivisible(6,3) -&gt; true<br>iseven<br>如果给定的数字为偶数, 则返回true, 否则为false。</p>
+<p>检查一个数字是奇数还是使用模数 (%) 运算符。如果数字为偶数, 则返回true, 如果数字为奇数, 则为false。</p>
+<p>const isEven = num =&gt; num % 2 === 0;<br>// isEven(3) -&gt; false<br>lcm<br>返回两个数字中最不常见的倍数。</p>
+<p>使用最大的公共除数 (GCD) 公式和Math.abs()来确定最不常见的倍数。GCD 公式使用递归。</p>
+<p>const lcm = (x,y) =&gt; {<br>const gcd = (x, y) =&gt; !y ? x : gcd(y, x % y);<br>return Math.abs(x*y)/(gcd(x,y));<br>};<br>// lcm(12,7) -&gt; 84<br>median<br>返回数字数组的中间值。</p>
+<p>找到数组的中间, 使用Array.sort()来对值进行排序。如果length为奇数, 则返回中点的数字, 否则为两个中间数的平均值。</p>
+<p>const median = arr =&gt; {<br>const mid = Math.floor(arr.length / 2), nums = arr.sort((a, b) =&gt; a - b);<br>return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;<br>};<br>// median([5,6,50,1,-5]) -&gt; 5<br>// median([0,10,-2,7]) -&gt; 3.5<br>palindrome<br>如果给定字符串为回文, 则返回true, 否则为false。</p>
+<p>转换字符串toLowerCase()并使用replace()从其中删除非字母数字字符。然后,split(”)到各个字符,reverse(),join(”), 并将其与原始的、不可逆转的字符串进行比较, 然后将其转换为tolowerCase().</p>
+<p>const palindrome = str =&gt; {<br>const s = str.toLowerCase().replace(/[\W_]/g,’’);<br>return s === s.split(‘’).reverse().join(‘’);<br>}<br>// palindrome(‘taco cat’) -&gt; true<br>percentile<br>使用百分比公式计算给定数组中有多少个数小于或等于给定值。</p>
+<p>使用Array.reduce()计算值的下面有多少, 有多少个数是相同的值, 并应用百分比公式。</p>
+<p>const percentile = (arr, val) =&gt;<br>100 * arr.reduce((acc,v) =&gt; acc + (v &lt; val ? 1 : 0) + (v === val ? 0.5 : 0), 0) / arr.length;<br>// percentile([1,2,3,4,5,6,7,8,9,10], 6) -&gt; 55<br>powerset<br>返回给定数字数组的 powerset。</p>
+<p>使用Array.reduce()与Array.map()组合, 以循环访问元素并将其合并到包含所有组合的数组中。</p>
+<p>const powerset = arr =&gt;<br>arr.reduce((a, v) =&gt; a.concat(a.map(r =&gt; [v].concat(r))), [[]]);<br>// powerset([1,2]) -&gt; [[], [1], [2], [2,1]]<br>randomIntegerInRange<br>返回指定范围内的随机整数。</p>
+<p>使用Math.random()生成一个随机数并将其映射到所需的范围, 使用Math.floor()使其成为整数。</p>
+<p>const randomIntegerInRange = (min, max) =&gt; Math.floor(Math.random() * (max - min + 1)) + min;<br>// randomIntegerInRange(0, 5) -&gt; 2<br>randomNumberInRange<br>返回指定范围内的随机数。</p>
+<p>使用Math.random()生成随机值, 并使用乘法将其映射到所需的范围。</p>
+<p>const randomNumberInRange = (min, max) =&gt; Math.random() * (max - min) + min;<br>// randomNumberInRange(2,10) -&gt; 6.0211363285087005<br>round<br>将数字四舍五入到指定的位数。</p>
+<p>使用Math.round()和模板文本将数字舍入到指定的位数。省略第二个参数,decimals舍入为整数。</p>
+<p>const round = (n, decimals=0) =&gt; Number(<code>${Math.round(</code>${n}e${decimals}<code>)}e-${decimals}</code>);<br>// round(1.005, 2) -&gt; 1.01<br>standardDeviation<br>返回数字数组的标准偏差。</p>
+<p>使用Array.reduce()计算值的平均值、方差和方差的总和, 值的方差, 然后确定标准偏差。可以省略第二个参数以获取样本标准偏差, 或将其设置为true以获取总体标准偏差。</p>
+<p>const standardDeviation = (arr, usePopulation = false) =&gt; {<br>const mean = arr.reduce((acc, val) =&gt; acc + val, 0) / arr.length;<br>return Math.sqrt(<br>arr.reduce((acc, val) =&gt; acc.concat(Math.pow(val - mean, 2)), [])<br>.reduce((acc, val) =&gt; acc + val, 0) / (arr.length - (usePopulation ? 0 : 1))<br>);<br>};<br>// standardDeviation([10,2,38,23,38,23,21]) -&gt; 13.284434142114991 (sample)<br>// standardDeviation([10,2,38,23,38,23,21], true) -&gt; 12.29899614287479 (population)<br>媒体<br>speechSynthesis<br>执行语音合成 (实验)。</p>
+<p>使用SpeechSynthesisUtterance.voice和window.speechSynthesis.getVoices()将邮件转换为语音。使用window.speechSynthesis.speak()播放该消息。了解有关Web 语音 API 的 SpeechSynthesisUtterance 接口的详细信息.</p>
+<p>const speechSynthesis = message =&gt; {<br>const msg = new SpeechSynthesisUtterance(message);<br>msg.voice = window.speechSynthesis.getVoices()[0];<br>window.speechSynthesis.speak(msg);<br>};<br>// speechSynthesis(‘Hello, World’) -&gt; plays the message<br>节点<br>JSONToFile<br>将 JSON 对象写入文件。</p>
+<p>使用fs.writeFile()、模板文本和JSON.stringify()将json对象写入.json文件。</p>
+<p>const fs = require(‘fs’);<br>const JSONToFile = (obj, filename) =&gt; fs.writeFile(<code>${filename}.json</code>, JSON.stringify(obj, null, 2))<br>// JSONToFile({test: “is passed”}, ‘testJsonFile’) -&gt; writes the object to ‘testJsonFile.json’<br>readFileLines<br>返回指定文件中的行的数组。</p>
+<p>在fs节点包中使用readFileSync函数可以从文件创建Buffer。使用toString(encoding)函数将缓冲区转换为字符串。通过spliting 文件内容行从文件内容创建数组 (每个\n).</p>
+<p>const fs = require(‘fs’);<br>const readFileLines = filename =&gt; fs.readFileSync(filename).toString(‘UTF8’).split(‘\n’);<br>/*<br>contents of test.txt :<br>  line1<br>  line2<br>  line3</p>
+<hr>
+<p>let arr = readFileLines(‘test.txt’)<br>console.log(arr) // -&gt; [‘line1’, ‘line2’, ‘line3’]<br>*/<br>对象<br>cleanObj<br>移除从 JSON 对象指定的属性之外的任何特性。</p>
+<p>使用Object.keys()方法可以遍历给定的 json 对象并删除在给定数组中不是included 的键。另外, 如果给它一个特殊的键 (childIndicator), 它将在里面深入搜索, 并将函数应用于内部对象。</p>
+<p>const cleanObj = (obj, keysToKeep = [], childIndicator) =&gt; {<br>Object.keys(obj).forEach(key =&gt; {<br>if (key === childIndicator) {<br>cleanObj(obj[key], keysToKeep, childIndicator);<br>} else if (!keysToKeep.includes(key)) {<br>delete obj[key];<br>}<br>})<br>}<br>/<em><br>  const testObj = {a: 1, b: 2, children: {a: 1, b: 2}}<br>  cleanObj(testObj, [“a”],”children”)<br>  console.log(testObj)// { a: 1, children : { a: 1}}
+</em>/<br>objectFromPairs<br>从给定的键值对创建对象。</p>
+<p>使用Array.reduce()创建和组合键值对。</p>
+<p>const objectFromPairs = arr =&gt; arr.reduce((a, v) =&gt; (a[v[0]] = v[1], a), {});<br>// objectFromPairs([[‘a’,1],[‘b’,2]]) -&gt; {a: 1, b: 2}<br>objectToPairs<br>从对象创建键值对数组的数组。</p>
+<p>使用Object.keys()和Array.map()循环访问对象的键并生成具有键值对的数组。</p>
+<p>const objectToPairs = obj =&gt; Object.keys(obj).map(k =&gt; [k, obj[k]]);<br>// objectToPairs({a: 1, b: 2}) -&gt; [[‘a’,1],[‘b’,2]])<br>shallowClone<br>创建对象的浅表克隆。</p>
+<p>使用Object.assign()和一个空对象 ({}) 创建原始的浅克隆。</p>
+<p>const shallowClone = obj =&gt; Object.assign({}, obj);<br>/<em><br>const a = { x: true, y: 1 };<br>const b = shallowClone(a);<br>a === b -&gt; false
+</em>/<br>truthCheckCollection<br>检查谓词 (第二个参数) 是否 truthy 集合的所有元素 (第一个参数)。</p>
+<p>使用Array.every()检查每个传递的对象是否具有指定的属性, 以及是否返回 truthy 值。</p>
+<p>truthCheckCollection = (collection, pre) =&gt; (collection.every(obj =&gt; obj[pre]));<br>// truthCheckCollection([{“user”: “Tinky-Winky”, “sex”: “male”}, {“user”: “Dipsy”, “sex”: “male”}], “sex”) -&gt; true<br>字符串<br>anagrams<br>生成字符串的所有字谜 (包含重复项)。</p>
+<p>使用递归。对于给定字符串中的每个字母, 为其其余字母创建所有部分字谜。使用Array.map()将字母与每个部分变位词组合在一起, 然后将Array.reduce()组合在一个数组中的所有字谜。基本情况为字符串length等于2或1.</p>
+<p>const anagrams = str =&gt; {<br>if (str.length &lt;= 2) return str.length === 2 ? [str, str[1] + str[0]] : [str];<br>return str.split(‘’).reduce((acc, letter, i) =&gt;<br>acc.concat(anagrams(str.slice(0, i) + str.slice(i + 1)).map(val =&gt; letter + val)), []);<br>};<br>// anagrams(‘abc’) -&gt; [‘abc’,’acb’,’bac’,’bca’,’cab’,’cba’]<br>Capitalize<br>将字符串的第一个字母大写。</p>
+<p>使用 destructuring 和toUpperCase()可将第一个字母、…rest用于获取第一个字母之后的字符数组, 然后是Array.join(”)以使其成为字符串。省略lowerRest参数以保持字符串的其余部分不变, 或将其设置为true以转换为小写。</p>
+<p>const capitalize = ([first,…rest], lowerRest = false) =&gt;<br>first.toUpperCase() + (lowerRest ? rest.join(‘’).toLowerCase() : rest.join(‘’));<br>// capitalize(‘myName’) -&gt; ‘MyName’<br>// capitalize(‘myName’, true) -&gt; ‘Myname’<br>capitalizeEveryWord<br>将字符串中每个单词的首字母大写。</p>
+<p>使用replace()匹配每个单词和toUpperCase()的第一个字符以将其大写。</p>
+<p>const capitalizeEveryWord = str =&gt; str.replace(/\b[a-z]/g, char =&gt; char.toUpperCase());<br>// capitalizeEveryWord(‘hello world!’) -&gt; ‘Hello World!’<br>escapeRegExp<br>转义要在正则表达式中使用的字符串。</p>
+<p>使用replace()可转义特殊字符。</p>
+<p>const escapeRegExp = str =&gt; str.replace(/[.*+?^${}()|[]\]/g, ‘\$&amp;’);<br>// escapeRegExp(‘(test)’) -&gt; \(test\)<br>fromCamelCase<br>从匹配转换字符串。</p>
+<p>使用replace()可删除下划线、连字符和空格, 并将单词转换为匹配。省略第二个参数以使用默认分隔符_.</p>
+<p>const fromCamelCase = (str, separator = ‘<em>‘) =&gt;<br>str.replace(/([a-z\d])([A-Z])/g, ‘$1’ + separator + ‘$2’)<br>.replace(/([A-Z]+)([A-Z][a-z\d]+)/g, ‘$1’ + separator + ‘$2’).toLowerCase();<br>// fromCamelCase(‘someDatabaseFieldName’, ‘ ‘) -&gt; ‘some database field name’<br>// fromCamelCase(‘someLabelThatNeedsToBeCamelized’, ‘-‘) -&gt; ‘some-label-that-needs-to-be-camelized’<br>// fromCamelCase(‘someJavascriptProperty’, ‘</em>‘) -&gt; ‘some_javascript_property’<br>reverseString<br>反转字符串。</p>
+<p>使用数组 destructuring 和Array.reverse()可反转字符串中字符的顺序。使用join(”)组合字符以获取字符串.</p>
+<p>const reverseString = str =&gt; […str].reverse().join(‘’);<br>// reverseString(‘foobar’) -&gt; ‘raboof’<br>sortCharactersInString<br>按字母顺序对字符串中的字符进行排序。</p>
+<p>使用split(”)、Array.sort()利用localeCompare()重新组合使用join(”).</p>
+<p>const sortCharactersInString = str =&gt;<br>str.split(‘’).sort((a, b) =&gt; a.localeCompare(b)).join(‘’);<br>// sortCharactersInString(‘cabbage’) -&gt; ‘aabbceg’<br>toCamelCase<br>将字符串转换为匹配。</p>
+<p>使用replace()可删除下划线、连字符和空格, 并将单词转换为匹配。</p>
+<p>const toCamelCase = str =&gt;<br>str.replace(/^([A-Z])|[\s-_]+(\w)/g, (match, p1, p2, offset) =&gt;  p2 ? p2.toUpperCase() : p1.toLowerCase());<br>// toCamelCase(“some_database_field_name”) -&gt; ‘someDatabaseFieldName’<br>// toCamelCase(“Some label that needs to be camelized”) -&gt; ‘someLabelThatNeedsToBeCamelized’<br>// toCamelCase(“some-javascript-property”) -&gt; ‘someJavascriptProperty’<br>// toCamelCase(“some-mixed_string with spaces_underscores-and-hyphens”) -&gt; ‘someMixedStringWithSpacesUnderscoresAndHyphens’<br>truncateString<br>将字符串截断为指定长度。</p>
+<p>确定字符串的length是否大于num。将截断的字符串返回到所需的长度, 并将…追加到末尾或原始字符串。</p>
+<p>const truncateString = (str, num) =&gt;<br>str.length &gt; num ? str.slice(0, num &gt; 3 ? num - 3 : num) + ‘…’ : str;<br>// truncateString(‘boomerang’, 7) -&gt; ‘boom…’<br>实用<br>coalesce<br>返回第一个非空/未定义参数。</p>
+<p>使用Array.find()返回第一个非null/undefined的参数。</p>
+<p>const coalesce = (…args) =&gt; args.find(<em> =&gt; ![undefined, null].includes(</em>))<br>// coalesce(null,undefined,””,NaN, “Waldo”) -&gt; “”<br>coalesceFactory<br>返回自定义的联合函数, 返回从提供的参数验证函数返回true的第一个参数。</p>
+<p>使用Array.find()返回从提供的参数验证函数返回true的第一个参数。</p>
+<p>const coalesceFactory = valid =&gt; (…args) =&gt; args.find(valid);<br>// const customCoalesce = coalesceFactory(<em> =&gt; ![null, undefined, “”, NaN].includes(</em>))<br>// customCoalesce(undefined, null, NaN, “”, “Waldo”) //-&gt; “Waldo”<br>extendHex<br>将3位色码扩展为6位色码。</p>
+<p>使用Array.map()、split()和Array.join()来加入映射数组, 将3位的 RGB notated 十六进制 color-code 转换为6位数字形式。Array.slice()用于从字符串启动中删除#, 因为它添加了一次。</p>
+<p>const extendHex = shortHex =&gt;<br>‘#’ + shortHex.slice(shortHex.startsWith(‘#’) ? 1 : 0).split(‘’).map(x =&gt; x+x).join(‘’)<br>// extendHex(‘#03f’) -&gt; ‘#0033ff’<br>// extendHex(‘05a’) -&gt; ‘#0055aa’<br>gettype<br>返回值的本机类型。</p>
+<p>如果值未定义或为 null, 则返回小写的构造函数名称、”未定义” 或 “null”</p>
+<p>const getType = v =&gt;<br>v === undefined ? ‘undefined’ : v === null ? ‘null’ : v.constructor.name.toLowerCase();<br>// getType(new Set([1,2,3])) -&gt; “set”<br>hexToRGB<br>将 colorcode 转换为rgb()字符串。</p>
+<p>使用按位右运算符和掩码位与&amp;(and) 运算符将十六进制颜色代码 (前缀为#) 转换为具有 RGB 值的字符串。如果它是一个3位数的 colorcode, 那么用 extendHex () 函数 (ref.extendHex代码段) 扩展的6位 colorcode 进行相同的处理</p>
+<p>const hexToRgb = hex =&gt; {<br>const extendHex = shortHex =&gt;<br>‘#’ + shortHex.slice(shortHex.startsWith(‘#’) ? 1 : 0).split(‘’).map(x =&gt; x+x).join(‘’);<br>const extendedHex = hex.slice(hex.startsWith(‘#’) ? 1 : 0).length === 3 ? extendHex(hex) : hex;<br>return <code>rgb(${parseInt(extendedHex.slice(1), 16) &gt;&gt; 16}, ${(parseInt(extendedHex.slice(1), 16) &amp; 0x00ff00) &gt;&gt; 8}, ${parseInt(extendedHex.slice(1), 16) &amp; 0x0000ff})</code>;<br>}<br>// hexToRgb(‘#27ae60’) -&gt; ‘rgb(39, 174, 96)’<br>// hexToRgb(‘#acd’) -&gt; ‘rgb(170, 204, 221)’<br>isArray<br>检查给定参数是否为数组。</p>
+<p>使用Array.isArray()检查某个值是否属于数组。</p>
+<p>const isArray = val =&gt; !!val &amp;&amp; Array.isArray(val);<br>// isArray(null) -&gt; false<br>// isArray([1]) -&gt; true<br>isBoolean<br>检查给定的参数是否为本机布尔元素。</p>
+<p>使用typeof检查某个值是否被归类为布尔基元。</p>
+<p>const isBoolean = val =&gt; typeof val === ‘boolean’;<br>// isBoolean(null) -&gt; false<br>// isBoolean(false) -&gt; true<br>isFunction<br>检查给定参数是否为函数。</p>
+<p>使用typeof检查某个值是否被归类为函数基元。</p>
+<p>const isFunction = val =&gt; val &amp;&amp; typeof val === ‘function’;<br>// isFunction(‘x’) -&gt; false<br>// isFunction(x =&gt; x) -&gt; true<br>isNumber<br>检查给定参数是否为数字。</p>
+<p>使用typeof检查某个值是否归类为数字基元。</p>
+<p>const isNumber = val =&gt; typeof val === ‘number’;<br>// isNumber(‘1’) -&gt; false<br>// isNumber(1) -&gt; true<br>isString<br>检查给定参数是否为字符串。</p>
+<p>使用typeof检查某个值是否属于字符串基元。</p>
+<p>const isString = val =&gt; typeof val === ‘string’;<br>// isString(10) -&gt; false<br>// isString(‘10’) -&gt; true<br>isSymbol<br>检查给定参数是否为符号。</p>
+<p>使用typeof检查某个值是否被归类为符号基元。</p>
+<p>const isSymbol = val =&gt; typeof val === ‘symbol’;<br>// isSymbol(‘x’) -&gt; false<br>// isSymbol(Symbol(‘x’)) -&gt; true<br>RGBToHex<br>将 RGB 组件的值转换为 colorcode。</p>
+<p>使用按位左移位运算符 (&lt;&lt;) 和toString(16)将给定的 RGB 参数转换为十六进制字符串, 然后padStart(6,’0′)以获取6位十六进制值。</p>
+<p>const RGBToHex = (r, g, b) =&gt; ((r &lt;&lt; 16) + (g &lt;&lt; 8) + b).toString(16).padStart(6, ‘0’);<br>// RGBToHex(255, 165, 1) -&gt; ‘ffa501’<br>timeTaken<br>测量执行函数所用的时间。</p>
+<p>使用console.time()和console.timeEnd()来测量开始和结束时间之间的差异, 以确定回调执行所用的时间。</p>
+<p>const timeTaken = callback =&gt; {<br>console.time(‘timeTaken’);  const r = callback();<br>console.timeEnd(‘timeTaken’);  return r;<br>};<br>// timeTaken(() =&gt; Math.pow(2, 10)) -&gt; 1024<br>// (logged): timeTaken: 0.02099609375ms<br>toOrdinalSuffix<br>将序号后缀添加到数字。</p>
+<p>使用模数运算符 (%) 查找单个和十位数字的值。查找匹配的序号模式数字。如果在青少年模式中发现数字, 请使用青少年序号。</p>
+<p>const toOrdinalSuffix = num =&gt; {<br>const int = parseInt(num), digits = [(int % 10), (int % 100)],<br>ordinals = [‘st’, ‘nd’, ‘rd’, ‘th’], oPattern = [1, 2, 3, 4],<br>tPattern = [11, 12, 13, 14, 15, 16, 17, 18, 19];<br>return oPattern.includes(digits[0]) &amp;&amp; !tPattern.includes(digits[1]) ? int + ordinals[digits[0] - 1] : int + ordinals[3];<br>};<br>// toOrdinalSuffix(“123”) -&gt; “123rd”<br>UUIDGenerator<br>生成 UUID。</p>
+<p>使用cryptoAPI 生成 UUID, 符合RFC4122版本4。</p>
+<p>const UUIDGenerator = () =&gt;<br>([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =&gt;<br>(c ^ crypto.getRandomValues(new Uint8Array(1))[0] &amp; 15 &gt;&gt; c / 4).toString(16)<br>);<br>// UUIDGenerator() -&gt; ‘7982fcfe-5721-4632-bede-6000885be57d’<br>validateEmail<br>如果给定的字符串是有效的电子邮件, 则返回true, 否则为false。</p>
+<p>使用正则表达式检查电子邮件是否有效。如果电子邮件有效, 则返回 true, 如果没有, 则返回false。</p>
+<p>const validateEmail = str =&gt;<br>  /^(([^&lt;&gt;()[]\.,;:\s@”]+(.[^&lt;&gt;()[]\.,;:\s@”]+)*)|(“.+”))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/.test(str);<br>// validateEmail(mymail@gmail.com) -&gt; true<br>validateNumber<br>如果给定值为数字, 则返回true, 否则为false。</p>
+<p>将!isNaN与parseFloat()结合使用, 以检查参数是否为数字。使用isFinite()检查数字是否是有限的。使用Number()检查强制是否保持。</p>
+<p>const validateNumber = n =&gt; !isNaN(parseFloat(n)) &amp;&amp; isFinite(n) &amp;&amp; Number(n) == n;<br>// validateNumber(‘10’) -&gt; true<br>感谢作者分享了大量有用的Javascript片段,本文为中文版翻译，下面一起来看看有哪些精彩的JavaScript代码值得收藏。</p>
+<p>原文：<a href="https://github.com/Chalarangelo/30-seconds-of-code" target="_blank" rel="noopener">https://github.com/Chalarangelo/30-seconds-of-code</a></p>
+<p>作者：Chalarangelo</p>
+<p>翻译：<a href="http://caibaojian.com/30-seconds-of-code.html" target="_blank" rel="noopener">http://caibaojian.com/30-seconds-of-code.html</a></p>
+<p>译者：蔡宝坚</p>
+<p>本文翻译为前端开发博客所有，如有需要转载，请详细注明以上信息。</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-01-28</span><i class="fa fa-tag"></i><a class="tag" href="/tags/array-javascript-api/" title="array, javascript, api">array, javascript, api </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://yoursite.com/2018/01/28/index/,前端码农日志,数组操作第二部分,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2018/01/28/array/" title="javascript Application Programming Interface">Post Anterior</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/01/28/info/" title="小型企业内部接口调试项目">Próximo post</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
