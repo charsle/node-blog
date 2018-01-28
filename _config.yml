@@ -80,5 +80,5 @@ theme: anatole
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://gitee.com/charsle/node-blog.git
+  repo: https://github.com/charsle/node-blog.git
   branch: deploy
