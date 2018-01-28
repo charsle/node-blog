@@ -5,16 +5,31 @@
 # Site
 title: 前端码农日志
 subtitle:
-keywords: Hexo,HTML,CSS,android,Linux
-description:
+keywords: HTML,CSS,android,Linux
+description: 一个关注技术与人文的IT博客
 author: charsle
-language: /languages/zh-cn.yml
-avatar: /images/favicon.png
+avatar: https://avatars1.githubusercontent.com/u/11400128?s=460&v=4
 timezone:
+
+# Header
+menu:
+  Home: /
+  Archives: /archives
+  rss: /atom.xml
+
+
+# Social Accounts
+twitter: 
+rss: 
+weibo: iweb8 
+instagram: 
+github: charsle
+facebook: charsle.cai.3
+gitee: charsle
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://www.charsle.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -53,7 +68,11 @@ index_generator:
   path: ''
   per_page: 10
   order_by: -date
-  
+
+# Content
+excerpt_link: Read More
+fancybox: true
+
 # Category & Tag
 default_category: uncategorized
 category_map:
@@ -81,4 +100,24 @@ theme: anatole
 deploy:
   type: git
   repo: https://github.com/charsle/node-blog.git
-  branch: deploy
+  branch: master
+
+archive_generator:
+  per_page: 10  
+  yearly: false
+  monthly: true
+  daily: false
+
+# Comment
+duoshuo: ss
+disqus: ss
+gentie: ss
+# Valine comments https://valine.js.org
+valine:
+  enable: true # if you want use valine, please set enable: true
+  appid:  CnAe2r7Il03VGSTKGaxf4Wdx-gzGzoHsz
+  appkey: nTfB9wd2lBIJs8Urje43HB2H
+  notify: false # true/false:mail notify !!!Test,Caution. https://github.com/xCss/Valine/wiki/Valine-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E9%82%AE%E4%BB%B6%E6%8F%90%E9%86%92%E8%AE%BE%E7%BD%AE
+  verify: false # true/false:verify code
+  avatar: mm # avatar style https://github.com/xCss/Valine/wiki/avatar-setting-for-valine
+  placeholder: Just go go # comment box placeholder

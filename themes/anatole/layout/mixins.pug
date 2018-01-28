@@ -8,10 +8,13 @@ mixin make_post(item, is_detail)
 					a(href= url_for(item.path))= item.title
 		if is_detail
 			.post-content!= item.content
+			span item.excerpt_link
 		else
 			.post-content
 				- var summary = item.summary || item.content
 				p!= truncate(strip_html(summary), {length: 160})
+			.read-more 
+				a(href= url_for(item.path)) 阅读更多
 		.post-footer: .meta
 			.info
 				i.fa.fa-sun-o
@@ -27,6 +30,7 @@ mixin make_post(item, is_detail)
 					- item.tags.sort('posts').each(function(item) {
 							a.tag(href=config.root + item.path, title= item.name)= item.name + " "
 					- });
+				
 
 
 mixin make_pager()

@@ -1,5 +1,6 @@
 ---
 title: 数组操作第二部分
+summary: 数组集合操作，学会了
 date: 2018-01-28 17:23:04
 tags: array, javascript, api
 ---
