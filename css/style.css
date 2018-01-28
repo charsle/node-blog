@@ -111,12 +111,12 @@ a:hover, a:active {
 .content {
   height: auto;
   float: right;
-  width: 70%;
+  width: 80%;
   margin-top: 60px;
 }
 
 .page-top {
-  width: 70%;
+  width: 80%;
   position: fixed;
   right: 0;
   z-index: 3;
@@ -170,10 +170,10 @@ a:hover, a:active {
 }
 
 .sidebar {
-  width: 30%;
+  width: 20%;
   -webkit-background-size: cover;
   background-size: cover;
-  background-color: #fff;
+  background-color: #2a2a2a;
   height: 100%;
   transition: 0.8s;
   top: 0;
@@ -188,7 +188,7 @@ a:hover, a:active {
 }
 .sidebar .logo-title .description {
   font-size: 14px;
-  color: #565654;
+  color: #f2f2f2;
 }
 .sidebar .logo-title .logo {
   margin: 0 auto;
@@ -200,10 +200,12 @@ a:hover, a:active {
   letter-spacing: 2px;
   line-height: 1;
   margin: 0;
+  margin-top: 20px;
+ 
 }
 .sidebar .logo-title .title a {
   text-decoration: none;
-  color: #464646;
+  color: #f2f2f2;
   font-size: 2rem;
   font-weight: bold;
 }
@@ -222,7 +224,7 @@ a:hover, a:active {
   line-height: 0;
 }
 .sidebar .social-links a {
-  color: #565654;
+  color: #f2f2f2;
 }
 .sidebar .social-links a:hover {
   color: #4786D6;
@@ -392,7 +394,7 @@ a:hover, a:active {
   position: absolute;
   width: 100%;
   padding-bottom: 20px;
-  background: #fff;
+  background: #2a2a2a;
 }
 .footer a {
   color: #A6A6A6;
@@ -692,4 +694,19 @@ a.btn {
   .share {
     display: grid;
   }
+}
+.read-more {
+  text-align: right;
+ 
+}
+.read-more a{
+  color: #59C0FD;
+  border:1px skyblue solid;
+  padding: 2px 5px; 
+  border-radius: 5px;
+  font-size: 12px;
+}
+.read-more a:hover{
+  background: #59C0FD;
+  color: #fff;
 }
