@@ -109,12 +109,10 @@ archive_generator:
   daily: false
 
 # Comment
-duoshuo: ss
-disqus: ss
-gentie: ss
+youyan: 2156769
 # Valine comments https://valine.js.org
 valine:
-  enable: true # if you want use valine, please set enable: true
+  enable: false # if you want use valine, please set enable: true
   appid:  CnAe2r7Il03VGSTKGaxf4Wdx-gzGzoHsz
   appkey: nTfB9wd2lBIJs8Urje43HB2H
   notify: false # true/false:mail notify !!!Test,Caution. https://github.com/xCss/Valine/wiki/Valine-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E9%82%AE%E4%BB%B6%E6%8F%90%E9%86%92%E8%AE%BE%E7%BD%AE
