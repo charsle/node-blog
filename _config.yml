@@ -81,4 +81,4 @@ theme: anatole
 deploy:
   type: git
   repo: https://gitee.com/charsle/node-blog.git
-  branch: master
+  branch: deploy

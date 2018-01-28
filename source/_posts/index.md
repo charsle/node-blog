@@ -1,0 +1,964 @@
+---
+title: 数组操作第二部分
+date: 2018-01-28 17:23:04
+tags: array, javascript, api
+---
+数组
+arrayMax
+返回数组中的最大值。
+
+将Math.max()与扩展运算符 (…) 结合使用以获取数组中的最大值。
+
+const arrayMax = arr => Math.max(...arr);
+// arrayMax([10, 1, 5]) -> 10
+arrayMin
+返回数组中的最小值。
+
+将Math.min()与扩展运算符 (…) 结合使用以获取数组中的最小值。
+
+const arrayMin = arr => Math.min(...arr);
+// arrayMin([10, 1, 5]) -> 1
+chunk
+将数组块划分为指定大小的较小数组。
+
+使用Array.from()创建新的数组, 这符合将生成的区块数。使用Array.slice()将新数组的每个元素映射到size长度的区块。如果原始数组不能均匀拆分, 则最终的块将包含剩余的元素。
+
+const chunk = (arr, size) =>
+Array.from({length: Math.ceil(arr.length / size)}, (v, i) => arr.slice(i * size, i * size + size));
+// chunk([1,2,3,4,5], 2) -> [[1,2],[3,4],[5]]
+compact
+从数组中移除 falsey 值。
+
+使用Array.filter()筛选出 falsey 值 (false、null、0、””、undefined和NaN).
+
+const compact = (arr) => arr.filter(Boolean);
+// compact([0, 1, false, 2, '', 3, 'a', 'e'*23, NaN, 's', 34]) -> [ 1, 2, 3, 'a', 's', 34 ]
+countOccurrences
+计算数组中值的出现次数。
+
+使用Array.reduce()在每次遇到数组中的特定值时递增计数器。
+
+const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
+// countOccurrences([1,1,2,1,2,3], 1) -> 3
+deepFlatten
+深拼合数组。
+
+使用递归。使用Array.concat()与空数组 ([]) 和跨页运算符 (…) 来拼合数组。递归拼合作为数组的每个元素。
+
+const deepFlatten = arr => [].concat(...arr.map(v => Array.isArray(v) ? deepFlatten(v) : v));
+// deepFlatten([1,[2],[[3],4],5]) -> [1,2,3,4,5]
+difference
+返回两个数组之间的差异。
+
+从b创建Set, 然后使用Array.filter() on 只保留a b中不包含的值.
+
+const difference = (a, b) => { const s = new Set(b); return a.filter(x => !s.has(x)); };
+// difference([1,2,3], [1,2,4]) -> [3]
+distinctValuesOfArray
+返回数组的所有不同值。
+
+使用 ES6 Set和…rest运算符放弃所有重复的值。
+
+const distinctValuesOfArray = arr => [...new Set(arr)];
+// distinctValuesOfArray([1,2,2,3,4,4,5]) -> [1,2,3,4,5]
+dropElements
+移除数组中的元素, 直到传递的函数返回true。返回数组中的其余元素。 在数组中循环, 使用Array.shift()将数组的第一个元素除去, 直到函数的返回值为true。返回其余元素。
+
+const dropElements = (arr, func) => {
+while (arr.length > 0 && !func(arr[0])) arr.shift();
+return arr;
+};
+// dropElements([1, 2, 3, 4], n => n >= 3) -> [3,4]
+everyNth
+返回数组中的每个第 n 个元素。
+
+使用Array.filter()创建一个包含给定数组的每个第 n 个元素的新数组。
+
+const everyNth = (arr, nth) => arr.filter((e, i) => i % nth === 0);
+// everyNth([1,2,3,4,5,6], 2) -> [ 1, 3, 5 ]
+filterNonUnique
+筛选出数组中的非唯一值。
+
+对于只包含唯一值的数组, 请使用Array.filter()。
+
+const filterNonUnique = arr => arr.filter(i => arr.indexOf(i) === arr.lastIndexOf(i));
+// filterNonUnique([1,2,2,3,4,4,5]) -> [1,3,5]
+flatten
+拼合数组。
+
+使用Array.reduce()获取数组中的所有元素和concat()以拼合它们。
+
+const flatten = arr => arr.reduce((a, v) => a.concat(v), []);
+// flatten([1,[2],3,4]) -> [1,2,3,4]
+flattenDepth
+将数组向上拼合到指定深度。
+
+使用递归, 递减depth, 每层深度为1。使用Array.reduce()和Array.concat()来合并元素或数组。基本情况下, 对于等于1的depth停止递归。省略第二个元素,depth仅拼合到1的深度 (单个拼合)。
+
+const flattenDepth = (arr, depth = 1) =>
+depth != 1 ? arr.reduce((a, v) => a.concat(Array.isArray(v) ? flattenDepth(v, depth - 1) : v), [])
+: arr.reduce((a, v) => a.concat(v), []);
+// flattenDepth([1,[2],[[[3],4],5]], 2) -> [1,2,[3],4,5]
+groupby
+根据给定函数对数组元素进行分组。
+
+使用Array.map()将数组的值映射到函数或属性名。使用Array.reduce()创建一个对象, 其中的键是从映射的结果生成的。
+
+const groupBy = (arr, func) =>
+arr.map(typeof func === 'function' ? func : val => val[func])
+.reduce((acc, val, i) => { acc[val] = (acc[val] || []).concat(arr[i]); return acc; }, {});
+// groupBy([6.1, 4.2, 6.3], Math.floor) -> {4: [4.2], 6: [6.1, 6.3]}
+// groupBy(['one', 'two', 'three'], 'length') -> {3: ['one', 'two'], 5: ['three']}
+head
+返回列表的头。
+
+使用arr[0]可返回传递的数组的第一个元素。
+
+const head = arr => arr[0];
+// head([1,2,3]) -> 1
+initial
+返回除最后一个数组之外的所有元素。
+
+使用 “arr.slice(0,-1)” 返回数组的最后一个元素。
+
+const initial = arr => arr.slice(0, -1);
+// initial([1,2,3]) -> [1,2]
+initializeArrayWithRange
+初始化包含指定范围内的数字的数组。
+
+使用Array(end-start)创建所需长度的数组Array.map()以填充区域中所需的值。可以省略start以使用默认值0.
+
+const initializeArrayWithRange = (end, start = 0) =>
+Array.from({ length: end - start }).map((v, i) => i + start);
+// initializeArrayWithRange(5) -> [0,1,2,3,4]
+initializeArrayWithValues
+初始化并填充具有指定值的数组。
+
+使用Array(n)创建所需长度的数组,fill(v)以填充所需的值。可以省略value以使用默认值0.
+
+const initializeArrayWithValues = (n, value = 0) => Array(n).fill(value);
+// initializeArrayWithValues(5, 2) -> [2,2,2,2,2]
+intersection
+返回两个数组中存在的元素的列表。
+
+从b创建Set, 然后使用Array.filter()on a只保留b中包含的值.
+
+const intersection = (a, b) => { const s = new Set(b); return a.filter(x => s.has(x)); };
+// intersection([1,2,3], [4,3,2]) -> [2,3]
+last
+返回数组中的最后一个元素。
+
+使用arr.length – 1可计算给定数组的最后一个元素的索引并返回它。
+
+const last = arr => arr[arr.length - 1];
+// last([1,2,3]) -> 3
+mapObject
+使用函数将数组的值映射到对象, 其中键值对由原始值作为键和映射值组成。
+
+使用匿名内部函数范围来声明未定义的内存空间, 使用闭包来存储返回值。使用新的Array可将该数组与函数的映射放在其数据集上, 而逗号运算符返回第二个步骤, 而不需要从一个上下文移动到另一个环境 (由于关闭和操作顺序)。
+
+const mapObject = (arr, fn) => 
+(a => (a = [arr, arr.map(fn)], a[0].reduce( (acc,val,ind) => (acc[val] = a[1][ind], acc), {}) )) ( );
+/*
+const squareIt = arr => mapObject(arr, a => a*a)
+squareIt([1,2,3]) // { 1: 1, 2: 4, 3: 9 }
+*/
+nthElement
+返回数组的第 n 个元素。
+
+使用Array.slice()可获取包含第 n 个元素的数组。如果索引超出界限, 则返回[]。省略第二个参数n, 以获取数组的第一个元素。
+
+const nthElement = (arr, n=0) => (n>0? arr.slice(n,n+1) : arr.slice(n))[0];
+// nthElement(['a','b','c'],1) -> 'b'
+// nthElement(['a','b','b'],-3) -> 'a'
+pick
+从对象中选取对应于给定键的键值对。
+
+使用Array.reduce()将筛选/选取的密钥转换回具有相应键值对的对象 (如果在 obj 中存在该键)。
+
+const pick = (obj, arr) =>
+arr.reduce((acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc), {});
+// pick({ 'a': 1, 'b': '2', 'c': 3 }, ['a', 'c']) -> { 'a': 1, 'c': 3 }
+pull
+对原始数组进行变异, 以筛选出指定的值。
+
+使用Array.filter()和Array.includes()来拉出不需要的值。使用Array.length = 0可将传入的数组中的长度重置为零, 并将其设置为Array.push(), 以便仅使用所提取的值填充它。
+
+const pull = (arr, ...args) => {
+let pulled = arr.filter((v, i) => !args.includes(v));
+arr.length = 0; pulled.forEach(v => arr.push(v));
+};
+// let myArray = ['a', 'b', 'c', 'a', 'b', 'c'];
+// pull(myArray, 'a', 'c');
+// console.log(myArray) -> [ 'b', 'b' ]
+remove
+从数组中移除给定函数返回false的元素. 使用Array.filter()查找返回 truthy 值的数组元素和Array.reduce()以使用Array.splice()删除元素。使用三参数 (func value, index, array调用函数).
+
+const remove = (arr, func) =>
+Array.isArray(arr) ? arr.filter(func).reduce((acc, val) => {
+arr.splice(arr.indexOf(val), 1); return acc.concat(val);
+}, [])
+: [];
+// remove([1, 2, 3, 4], n => n % 2 == 0) -> [2, 4]
+sample
+返回数组中的随机元素。
+
+使用Math.random()生成一个随机数, 将它与length相乘, 并使用数学将其舍入到最接近的整数Math.floor()。此方法也适用于字符串。
+
+const sample = arr => arr[Math.floor(Math.random() * arr.length)];
+// sample([3, 7, 9, 11]) -> 9
+shuffle
+随机数组值的顺序。
+
+使用Array.sort()可在比较器中使用Math.random()重新排序元素。
+
+const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+// shuffle([1,2,3]) -> [2,3,1]
+similarity
+返回两个数组中都显示的元素的数组。
+
+使用filter()可删除不属于values的值, 使用includes()确定.
+
+const similarity = (arr, values) => arr.filter(v => values.includes(v));
+// similarity([1,2,3], [1,2,4]) -> [1,2]
+symmetricDifference
+返回两个数组之间的对称差。
+
+从每个数组创建一个Set, 然后对它们中的每一个都使用Array.filter(), 以便只保留其他值中不包含的数值。
+
+const symmetricDifference = (a, b) => {
+const sA = new Set(a), sB = new Set(b);
+return [...a.filter(x => !sB.has(x)), ...b.filter(x => !sA.has(x))];
+}
+// symmetricDifference([1,2,3], [1,2,4]) -> [3,4]
+tail
+返回数组中的所有元素, 除第一个。
+
+如果数组的length大于1, 则返回arr.slice(1), 否则返回整个数组。
+
+const tail = arr => arr.length > 1 ? arr.slice(1) : arr;
+// tail([1,2,3]) -> [2,3]
+// tail([1]) -> [1]
+take
+返回一个数组, 其中 n 个元素从开始处移除。
+
+使用Array.slice()创建数组的切片, 其中包含从开始处取出的n元素。
+
+const take = (arr, n = 1) => arr.slice(0, n);
+// take([1, 2, 3], 5) -> [1, 2, 3]
+// take([1, 2, 3], 0) -> []
+takeRight
+返回一个数组, 其中 n 个元素从末尾移除。
+
+使用Array.slice()创建数组的切片, 其中包含从末尾取出的n元素。
+
+const takeRight = (arr, n = 1) => arr.slice(arr.length - n, arr.length);
+// takeRight([1, 2, 3], 2) -> [ 2, 3 ]
+// takeRight([1, 2, 3]) -> [3]
+union
+返回在两个数组中的任意一个中存在的每个元素。
+
+创建一个Set, 其中包含a和b的所有值, 并将其转换为数组。
+
+const union = (a, b) => Array.from(new Set([...a, ...b]));
+// union([1,2,3], [4,3,2]) -> [1,2,3,4]
+without
+筛选出数组中具有指定值之一的元素。
+
+使用Array.filter()创建不包括的数组 (使用!Array.includes()) 所有给定值。
+
+const without = (arr, ...args) => arr.filter(v => !args.includes(v));
+// without([2, 1, 2, 3], 1, 2) -> [3]
+zip
+创建基于原始数组中的位置分组的元素数组。
+
+使用Math.max.apply()获取参数中最长的数组。创建一个以该长度为返回值的数组, 并使用 map 函数创建一个分组元素的数组Array.from()如果参数数组的长度不同, 则在未找到任何值的情况下使用undefined。
+
+const zip = (...arrays) => {
+const maxLength = Math.max(...arrays.map(x => x.length));
+return Array.from({length: maxLength}).map((_, i) => {
+return Array.from({length: arrays.length}, (_, k) => arrays[k][i]);
+})
+}
+//zip(['a', 'b'], [1, 2], [true, false]); -> [['a', 1, true], ['b', 2, false]]
+//zip(['a'], [1, 2], [true, false]); -> [['a', 1, true], [undefined, 2, false]]
+浏览器
+bottomVisible
+如果页的底部可见, 则返回true, 否则为false。
+
+使用scrollY、scrollHeight和clientHeight来确定页面底部是否可见。
+
+const bottomVisible = () =>
+document.documentElement.clientHeight + window.scrollY >= document.documentElement.scrollHeight || document.documentElement.clientHeight;
+// bottomVisible() -> true
+currentURL
+返回当前 URL。
+
+使用window.location.href获取当前 URL。
+
+const currentURL = () => window.location.href;
+// currentUrl() -> 'https://google.com'
+elementIsVisibleInViewport
+如果指定的元素在视区中可见, 则返回true, 否则为false。
+
+使用Element.getBoundingClientRect()和window.inner(Width|Height)值以确定给定元素在视区中是否可见。省略第二个参数以确定该元素是否完全可见, 或指定true以确定它是否部分可见。
+
+const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
+const { top, left, bottom, right } = el.getBoundingClientRect();
+return partiallyVisible
+? ((top > 0 && top < innerHeight) || (bottom > 0 && bottom < innerHeight)) &&
+((left > 0 && left < innerWidth) || (right > 0 && right < innerWidth))
+: top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
+};
+// e.g. 100x100 viewport and a 10x10px element at position {top: -1, left: 0, bottom: 9, right: 10}
+// elementIsVisibleInViewport(el) -> false (not fully visible)
+// elementIsVisibleInViewport(el, true) -> true (partially visible)
+getScrollPosition
+返回当前页的滚动位置。
+
+如果已定义, 则使用pageXOffset和pageYOffset, 否则scrollLeft和scrollTop。可以省略el以使用window的默认值.
+
+const getScrollPosition = (el = window) =>
+({x: (el.pageXOffset !== undefined) ? el.pageXOffset : el.scrollLeft,
+y: (el.pageYOffset !== undefined) ? el.pageYOffset : el.scrollTop});
+// getScrollPosition() -> {x: 0, y: 200}
+getURLParameters
+返回一个包含当前 URL 参数的对象。
+
+使用match()与适当的正则表达式来获取所有键值对,Array.reduce()可将它们映射并合并到单个对象中。将location.search作为要应用于当前url的参数传递.
+
+const getURLParameters = url =>
+url.match(/([^?=&]+)(=([^&]*))/g).reduce(
+(a, v) => (a[v.slice(0, v.indexOf('='))] = v.slice(v.indexOf('=') + 1), a), {}
+);
+// getURLParameters('http://url.com/page?name=Adam&surname=Smith') -> {name: 'Adam', surname: 'Smith'}
+redirect
+重定向到指定的 URL。
+
+使用window.location.href或window.location.replace()重定向到url。传递第二个参数以模拟链接单击 (true-默认值) 或 HTTP 重定向 (false).
+
+const redirect = (url, asLink = true) =>
+asLink ? window.location.href = url : window.location.replace(url);
+// redirect('https://google.com')
+scrollToTop
+平滑滚动到页面顶部。
+
+使用document.documentElement.scrollTop或document.body.scrollTop从顶部获取距离。从顶部的距离的一小部分滚动。使用window.requestAnimationFrame()对滚动进行动画处理。
+
+const scrollToTop = () => {
+const c = document.documentElement.scrollTop || document.body.scrollTop;
+if (c > 0) {
+window.requestAnimationFrame(scrollToTop);
+window.scrollTo(0, c - c / 8);
+}
+};
+// scrollToTop()
+日期
+getDaysDiffBetweenDates
+返回两个日期之间的差异 (以天为值)。
+
+计算Date对象之间的差异 (以天为)。
+
+const getDaysDiffBetweenDates = (dateInitial, dateFinal) => (dateFinal - dateInitial) / (1000 * 3600 * 24);
+// getDaysDiffBetweenDates(new Date("2017-12-13"), new Date("2017-12-22")) -> 9
+JSONToDate
+将 JSON 对象转换为日期。
+
+使用Date(), 将 JSON 格式的日期转换为可读格式 (dd/mm/yyyy日)).
+
+const JSONToDate = arr => {
+const dt = new Date(parseInt(arr.toString().substr(6)));
+return `${ dt.getDate() }/${ dt.getMonth() + 1 }/${ dt.getFullYear() }`
+};
+// JSONToDate(/Date(1489525200000)/) -> "14/3/2017"
+toEnglishDate
+将日期从美国格式转换为英文格式。
+
+使用Date.toISOString()、split(‘T’)和replace()将日期从美式格式转换为英文格式。如果传递的时间不能转换为日期, 则抛出错误。
+
+const toEnglishDate  = (time) =>
+{try{return new Date(time).toISOString().split('T')[0].replace(/-/g, '/')}catch(e){return}};
+// toEnglishDate('09/21/2010') -> '21/09/2010'
+功能
+chainAsync
+链异步函数。
+
+循环遍历包含异步事件的函数数组, 当每个异步事件完成时调用next。
+
+const chainAsync = fns => { let curr = 0; const next = () => fns[curr++](next); next(); };
+/*
+chainAsync([
+  next => { console.log('0 seconds'); setTimeout(next, 1000); },
+  next => { console.log('1 second');  setTimeout(next, 1000); },
+  next => { console.log('2 seconds'); }
+])
+compose
+执行从右向左的函数组合。
+
+使用Array.reduce()执行从右向左的函数组合。最后一个 (最右边) 的函数可以接受一个或多个参数;其余的函数必须是一元的。
+
+const compose = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
+/*
+const add5 = x => x + 5
+const multiply = (x, y) => x * y
+const multiplyAndAdd5 = compose(add5, multiply)
+multiplyAndAdd5(5, 2) -> 15
+*/
+curry
+Curries a function.
+
+使用递归。如果提供的参数 (变量) 的数量足够, 请调用传递的函数args f。否则, 返回需要其余参数的扩充函数f。如果你想咖喱一个函数, 接受可变数目的参数 (如Math.min()), 可以选择将参数的个数传递到第二个参数arity(可变函数).
+
+const curry = (fn, arity = fn.length, ...args) =>
+arity <= args.length
+? fn(...args)
+: curry.bind(null, fn, arity, ...args);
+// curry(Math.pow)(2)(10) -> 1024
+// curry(Math.min, 3)(10)(50)(2) -> 2
+functionName
+记录函数的名称。
+
+使用console.debug()和传递的方法的name属性将方法的名称记录到控制台的debug通道中。
+
+const functionName = fn => (console.debug(fn.name), fn);
+// functionName(Math.max) -> max (logged in debug channel of console)
+pipe
+执行从左向右的函数组合。
+
+使用Array.reduce()与扩展运算符 (…) 执行从左向右的函数组合。第一个 (最左边的) 函数可以接受一个或多个参数;其余的函数必须是一元的。
+
+const pipeFunctions = (...fns) => fns.reduce((f, g) => (...args) => g(f(...args)));
+/*
+const add5 = x => x + 5
+const multiply = (x, y) => x * y
+const multiplyAndAdd5 = pipeFunctions(multiply, add5)
+multiplyAndAdd5(5, 2) -> 15
+*/
+promisify
+转换异步函数以返回一个承诺。
+
+使用讨好返回一个返回调用原始函数的Promise的函数。使用…rest运算符传入所有参数。 在节点 8 + 中, 可以使用 util.promisify
+
+const promisify = func =>
+(...args) =>
+new Promise((resolve, reject) =>
+func(...args, (err, result) =>
+err ? reject(err) : resolve(result))
+);
+// const delay = promisify((d, cb) => setTimeout(cb, d))
+// delay(2000).then(() => console.log('Hi!')) -> Promise resolves after 2s
+runPromisesInSeries
+运行一系列的承诺系列。
+
+使用Array.reduce()创建一个承诺链, 每个承诺在解决时返回下一个承诺。
+
+const runPromisesInSeries = ps => ps.reduce((p, next) => p.then(next), Promise.resolve());
+// const delay = (d) => new Promise(r => setTimeout(r, d))
+// runPromisesInSeries([() => delay(1000), () => delay(2000)]) -> executes each promise sequentially, taking a total of 3 seconds to complete
+sleep
+延迟异步函数的执行。
+
+延迟执行async函数的一部分, 将其放入休眠状态, 返回Promise.
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+/*
+async function sleepyWork() {
+  console.log('I\'m going to sleep for 1 second.');
+  await sleep(1000);
+  console.log('I woke up after 1 second.');
+}
+*/
+数学
+arrayAverage
+返回数字数组的平均值。
+
+使用Array.reduce()将每个值添加到累加器中, 并以0的值初始化, 除以数组的length。
+
+const arrayAverage = arr => arr.reduce((acc, val) => acc + val, 0) / arr.length;
+// arrayAverage([1,2,3]) -> 2
+arraySum
+返回一个数字数组的总和。
+
+使用Array.reduce()将每个值添加到累加器中, 并以0值初始化.
+
+const arraySum = arr => arr.reduce((acc, val) => acc + val, 0);
+// arraySum([1,2,3,4]) -> 10
+collatz
+应用 Collatz 算法。
+
+如果n是偶数, 则返回n/2。否则返回3n+1.
+
+const collatz = n => (n % 2 == 0) ? (n / 2) : (3 * n + 1);
+// collatz(8) --> 4
+// collatz(5) --> 16
+collatz
+将数字转换为数字数组。
+
+将数字转换为字符串, 在 ES6 ([…string]) 中使用扩展运算符生成数组。使用Array.map()和parseInt()将每个值转换为整数。
+
+const digitize = n => [...''+n].map(i => parseInt(i));
+// digitize(2334) -> [2, 3, 3, 4]
+digitize
+返回两点之间的距离。
+
+使用Math.hypot()计算两个点之间的欧氏距离。
+
+const distance = (x0, y0, x1, y1) => Math.hypot(x1 - x0, y1 - y0);
+// distance(1,1, 2,3) -> 2.23606797749979
+distance
+计算数字的阶乘。
+
+使用递归。如果n小于或等于1, 则返回1。否则, 返回n的乘积和n – 1的阶乘。如果n为负数, 则引发异常。
+
+const factorial = n =>
+n < 0 ? (() => { throw new TypeError('Negative numbers are not allowed!') })()
+: n <= 1 ? 1 : n * factorial(n - 1);
+// factorial(6) -> 720
+fibonacci
+生成一个数组, 包含斐波那契数列, 直到第 n 个项。
+
+创建一个指定长度的空数组, 初始化前两个值 (0和1)。使用Array.reduce()可将值添加到数组中, 方法是使用前两个值的总和, 但前两个数值除外。
+
+const fibonacci = n =>
+Array(n).fill(0).reduce((acc, val, i) => acc.concat(i > 1 ? acc[i - 1] + acc[i - 2] : i), []);
+// fibonacci(5) -> [0,1,1,2,3]
+gcd
+计算两个数字之间最大的公共除数。
+
+使用递归。基本情况是当y等于0时。在这种情况下, 返回x。否则, 返回y的 GCD 和除法的其余部分x/y.
+
+const gcd = (x, y) => !y ? x : gcd(y, x % y);
+// gcd (8, 36) -> 4
+hammingDistance
+计算两个值之间的汉明距离。
+
+使用 XOR 运算符 (^) 可查找两个数字之间的位差, 使用toString(2)转换为二进制字符串。使用match(/1/g)计算并返回字符串中1的数目。.
+
+const hammingDistance = (num1, num2) =>
+((num1 ^ num2).toString(2).match(/1/g) || '').length;
+// hammingDistance(2,3) -> 1
+isDivisible
+检查第一个数值参数是否可被另一个数字变量整除。
+
+使用模数运算符 (%) 检查余数是否等于0.
+
+const isDivisible = (dividend, divisor) => dividend % divisor === 0;
+// isDivisible(6,3) -> true
+iseven
+如果给定的数字为偶数, 则返回true, 否则为false。
+
+检查一个数字是奇数还是使用模数 (%) 运算符。如果数字为偶数, 则返回true, 如果数字为奇数, 则为false。
+
+const isEven = num => num % 2 === 0;
+// isEven(3) -> false
+lcm
+返回两个数字中最不常见的倍数。
+
+使用最大的公共除数 (GCD) 公式和Math.abs()来确定最不常见的倍数。GCD 公式使用递归。
+
+const lcm = (x,y) => {
+const gcd = (x, y) => !y ? x : gcd(y, x % y);
+return Math.abs(x*y)/(gcd(x,y));
+};
+// lcm(12,7) -> 84
+median
+返回数字数组的中间值。
+
+找到数组的中间, 使用Array.sort()来对值进行排序。如果length为奇数, 则返回中点的数字, 否则为两个中间数的平均值。
+
+const median = arr => {
+const mid = Math.floor(arr.length / 2), nums = arr.sort((a, b) => a - b);
+return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+};
+// median([5,6,50,1,-5]) -> 5
+// median([0,10,-2,7]) -> 3.5
+palindrome
+如果给定字符串为回文, 则返回true, 否则为false。
+
+转换字符串toLowerCase()并使用replace()从其中删除非字母数字字符。然后,split(”)到各个字符,reverse(),join(”), 并将其与原始的、不可逆转的字符串进行比较, 然后将其转换为tolowerCase().
+
+const palindrome = str => {
+const s = str.toLowerCase().replace(/[\W_]/g,'');
+return s === s.split('').reverse().join('');
+}
+// palindrome('taco cat') -> true
+percentile
+使用百分比公式计算给定数组中有多少个数小于或等于给定值。
+
+使用Array.reduce()计算值的下面有多少, 有多少个数是相同的值, 并应用百分比公式。
+
+const percentile = (arr, val) =>
+100 * arr.reduce((acc,v) => acc + (v < val ? 1 : 0) + (v === val ? 0.5 : 0), 0) / arr.length;
+// percentile([1,2,3,4,5,6,7,8,9,10], 6) -> 55
+powerset
+返回给定数字数组的 powerset。
+
+使用Array.reduce()与Array.map()组合, 以循环访问元素并将其合并到包含所有组合的数组中。
+
+const powerset = arr =>
+arr.reduce((a, v) => a.concat(a.map(r => [v].concat(r))), [[]]);
+// powerset([1,2]) -> [[], [1], [2], [2,1]]
+randomIntegerInRange
+返回指定范围内的随机整数。
+
+使用Math.random()生成一个随机数并将其映射到所需的范围, 使用Math.floor()使其成为整数。
+
+const randomIntegerInRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+// randomIntegerInRange(0, 5) -> 2
+randomNumberInRange
+返回指定范围内的随机数。
+
+使用Math.random()生成随机值, 并使用乘法将其映射到所需的范围。
+
+const randomNumberInRange = (min, max) => Math.random() * (max - min) + min;
+// randomNumberInRange(2,10) -> 6.0211363285087005
+round
+将数字四舍五入到指定的位数。
+
+使用Math.round()和模板文本将数字舍入到指定的位数。省略第二个参数,decimals舍入为整数。
+
+const round = (n, decimals=0) => Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
+// round(1.005, 2) -> 1.01
+standardDeviation
+返回数字数组的标准偏差。
+
+使用Array.reduce()计算值的平均值、方差和方差的总和, 值的方差, 然后确定标准偏差。可以省略第二个参数以获取样本标准偏差, 或将其设置为true以获取总体标准偏差。
+
+const standardDeviation = (arr, usePopulation = false) => {
+const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+return Math.sqrt(
+arr.reduce((acc, val) => acc.concat(Math.pow(val - mean, 2)), [])
+.reduce((acc, val) => acc + val, 0) / (arr.length - (usePopulation ? 0 : 1))
+);
+};
+// standardDeviation([10,2,38,23,38,23,21]) -> 13.284434142114991 (sample)
+// standardDeviation([10,2,38,23,38,23,21], true) -> 12.29899614287479 (population)
+媒体
+speechSynthesis
+执行语音合成 (实验)。
+
+使用SpeechSynthesisUtterance.voice和window.speechSynthesis.getVoices()将邮件转换为语音。使用window.speechSynthesis.speak()播放该消息。了解有关Web 语音 API 的 SpeechSynthesisUtterance 接口的详细信息.
+
+const speechSynthesis = message => {
+const msg = new SpeechSynthesisUtterance(message);
+msg.voice = window.speechSynthesis.getVoices()[0];
+window.speechSynthesis.speak(msg);
+};
+// speechSynthesis('Hello, World') -> plays the message
+节点
+JSONToFile
+将 JSON 对象写入文件。
+
+使用fs.writeFile()、模板文本和JSON.stringify()将json对象写入.json文件。
+
+const fs = require('fs');
+const JSONToFile = (obj, filename) => fs.writeFile(`${filename}.json`, JSON.stringify(obj, null, 2))
+// JSONToFile({test: "is passed"}, 'testJsonFile') -> writes the object to 'testJsonFile.json'
+readFileLines
+返回指定文件中的行的数组。
+
+在fs节点包中使用readFileSync函数可以从文件创建Buffer。使用toString(encoding)函数将缓冲区转换为字符串。通过spliting 文件内容行从文件内容创建数组 (每个\n).
+
+const fs = require('fs');
+const readFileLines = filename => fs.readFileSync(filename).toString('UTF8').split('\n');
+/*
+contents of test.txt :
+  line1
+  line2
+  line3
+  ___________________________
+let arr = readFileLines('test.txt')
+console.log(arr) // -> ['line1', 'line2', 'line3']
+*/
+对象
+cleanObj
+移除从 JSON 对象指定的属性之外的任何特性。
+
+使用Object.keys()方法可以遍历给定的 json 对象并删除在给定数组中不是included 的键。另外, 如果给它一个特殊的键 (childIndicator), 它将在里面深入搜索, 并将函数应用于内部对象。
+
+const cleanObj = (obj, keysToKeep = [], childIndicator) => {
+Object.keys(obj).forEach(key => {
+if (key === childIndicator) {
+cleanObj(obj[key], keysToKeep, childIndicator);
+} else if (!keysToKeep.includes(key)) {
+delete obj[key];
+}
+})
+}
+/*
+  const testObj = {a: 1, b: 2, children: {a: 1, b: 2}}
+  cleanObj(testObj, ["a"],"children")
+  console.log(testObj)// { a: 1, children : { a: 1}}
+*/
+objectFromPairs
+从给定的键值对创建对象。
+
+使用Array.reduce()创建和组合键值对。
+
+const objectFromPairs = arr => arr.reduce((a, v) => (a[v[0]] = v[1], a), {});
+// objectFromPairs([['a',1],['b',2]]) -> {a: 1, b: 2}
+objectToPairs
+从对象创建键值对数组的数组。
+
+使用Object.keys()和Array.map()循环访问对象的键并生成具有键值对的数组。
+
+const objectToPairs = obj => Object.keys(obj).map(k => [k, obj[k]]);
+// objectToPairs({a: 1, b: 2}) -> [['a',1],['b',2]])
+shallowClone
+创建对象的浅表克隆。
+
+使用Object.assign()和一个空对象 ({}) 创建原始的浅克隆。
+
+const shallowClone = obj => Object.assign({}, obj);
+/*
+const a = { x: true, y: 1 };
+const b = shallowClone(a);
+a === b -> false
+*/
+truthCheckCollection
+检查谓词 (第二个参数) 是否 truthy 集合的所有元素 (第一个参数)。
+
+使用Array.every()检查每个传递的对象是否具有指定的属性, 以及是否返回 truthy 值。
+
+truthCheckCollection = (collection, pre) => (collection.every(obj => obj[pre]));
+// truthCheckCollection([{"user": "Tinky-Winky", "sex": "male"}, {"user": "Dipsy", "sex": "male"}], "sex") -> true
+字符串
+anagrams
+生成字符串的所有字谜 (包含重复项)。
+
+使用递归。对于给定字符串中的每个字母, 为其其余字母创建所有部分字谜。使用Array.map()将字母与每个部分变位词组合在一起, 然后将Array.reduce()组合在一个数组中的所有字谜。基本情况为字符串length等于2或1.
+
+const anagrams = str => {
+if (str.length <= 2) return str.length === 2 ? [str, str[1] + str[0]] : [str];
+return str.split('').reduce((acc, letter, i) =>
+acc.concat(anagrams(str.slice(0, i) + str.slice(i + 1)).map(val => letter + val)), []);
+};
+// anagrams('abc') -> ['abc','acb','bac','bca','cab','cba']
+Capitalize
+将字符串的第一个字母大写。
+
+使用 destructuring 和toUpperCase()可将第一个字母、…rest用于获取第一个字母之后的字符数组, 然后是Array.join(”)以使其成为字符串。省略lowerRest参数以保持字符串的其余部分不变, 或将其设置为true以转换为小写。
+
+const capitalize = ([first,...rest], lowerRest = false) =>
+first.toUpperCase() + (lowerRest ? rest.join('').toLowerCase() : rest.join(''));
+// capitalize('myName') -> 'MyName'
+// capitalize('myName', true) -> 'Myname'
+capitalizeEveryWord
+将字符串中每个单词的首字母大写。
+
+使用replace()匹配每个单词和toUpperCase()的第一个字符以将其大写。
+
+const capitalizeEveryWord = str => str.replace(/\b[a-z]/g, char => char.toUpperCase());
+// capitalizeEveryWord('hello world!') -> 'Hello World!'
+escapeRegExp
+转义要在正则表达式中使用的字符串。
+
+使用replace()可转义特殊字符。
+
+const escapeRegExp = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// escapeRegExp('(test)') -> \\(test\\)
+fromCamelCase
+从匹配转换字符串。
+
+使用replace()可删除下划线、连字符和空格, 并将单词转换为匹配。省略第二个参数以使用默认分隔符_.
+
+const fromCamelCase = (str, separator = '_') =>
+str.replace(/([a-z\d])([A-Z])/g, '$1' + separator + '$2')
+.replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separator + '$2').toLowerCase();
+// fromCamelCase('someDatabaseFieldName', ' ') -> 'some database field name'
+// fromCamelCase('someLabelThatNeedsToBeCamelized', '-') -> 'some-label-that-needs-to-be-camelized'
+// fromCamelCase('someJavascriptProperty', '_') -> 'some_javascript_property'
+reverseString
+反转字符串。
+
+使用数组 destructuring 和Array.reverse()可反转字符串中字符的顺序。使用join(”)组合字符以获取字符串.
+
+const reverseString = str => [...str].reverse().join('');
+// reverseString('foobar') -> 'raboof'
+sortCharactersInString
+按字母顺序对字符串中的字符进行排序。
+
+使用split(”)、Array.sort()利用localeCompare()重新组合使用join(”).
+
+const sortCharactersInString = str =>
+str.split('').sort((a, b) => a.localeCompare(b)).join('');
+// sortCharactersInString('cabbage') -> 'aabbceg'
+toCamelCase
+将字符串转换为匹配。
+
+使用replace()可删除下划线、连字符和空格, 并将单词转换为匹配。
+
+const toCamelCase = str =>
+str.replace(/^([A-Z])|[\s-_]+(\w)/g, (match, p1, p2, offset) =>  p2 ? p2.toUpperCase() : p1.toLowerCase());
+// toCamelCase("some_database_field_name") -> 'someDatabaseFieldName'
+// toCamelCase("Some label that needs to be camelized") -> 'someLabelThatNeedsToBeCamelized'
+// toCamelCase("some-javascript-property") -> 'someJavascriptProperty'
+// toCamelCase("some-mixed_string with spaces_underscores-and-hyphens") -> 'someMixedStringWithSpacesUnderscoresAndHyphens'
+truncateString
+将字符串截断为指定长度。
+
+确定字符串的length是否大于num。将截断的字符串返回到所需的长度, 并将…追加到末尾或原始字符串。
+
+const truncateString = (str, num) =>
+str.length > num ? str.slice(0, num > 3 ? num - 3 : num) + '...' : str;
+// truncateString('boomerang', 7) -> 'boom...'
+实用
+coalesce
+返回第一个非空/未定义参数。
+
+使用Array.find()返回第一个非null/undefined的参数。
+
+const coalesce = (...args) => args.find(_ => ![undefined, null].includes(_))
+// coalesce(null,undefined,"",NaN, "Waldo") -> ""
+coalesceFactory
+返回自定义的联合函数, 返回从提供的参数验证函数返回true的第一个参数。
+
+使用Array.find()返回从提供的参数验证函数返回true的第一个参数。
+
+const coalesceFactory = valid => (...args) => args.find(valid);
+// const customCoalesce = coalesceFactory(_ => ![null, undefined, "", NaN].includes(_))
+// customCoalesce(undefined, null, NaN, "", "Waldo") //-> "Waldo"
+extendHex
+将3位色码扩展为6位色码。
+
+使用Array.map()、split()和Array.join()来加入映射数组, 将3位的 RGB notated 十六进制 color-code 转换为6位数字形式。Array.slice()用于从字符串启动中删除#, 因为它添加了一次。
+
+const extendHex = shortHex =>
+'#' + shortHex.slice(shortHex.startsWith('#') ? 1 : 0).split('').map(x => x+x).join('')
+// extendHex('#03f') -> '#0033ff'
+// extendHex('05a') -> '#0055aa'
+gettype
+返回值的本机类型。
+
+如果值未定义或为 null, 则返回小写的构造函数名称、”未定义” 或 “null”
+
+const getType = v =>
+v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
+// getType(new Set([1,2,3])) -> "set"
+hexToRGB
+将 colorcode 转换为rgb()字符串。
+
+使用按位右运算符和掩码位与&(and) 运算符将十六进制颜色代码 (前缀为#) 转换为具有 RGB 值的字符串。如果它是一个3位数的 colorcode, 那么用 extendHex () 函数 (ref.extendHex代码段) 扩展的6位 colorcode 进行相同的处理
+
+const hexToRgb = hex => {
+const extendHex = shortHex =>
+'#' + shortHex.slice(shortHex.startsWith('#') ? 1 : 0).split('').map(x => x+x).join('');
+const extendedHex = hex.slice(hex.startsWith('#') ? 1 : 0).length === 3 ? extendHex(hex) : hex;
+return `rgb(${parseInt(extendedHex.slice(1), 16) >> 16}, ${(parseInt(extendedHex.slice(1), 16) & 0x00ff00) >> 8}, ${parseInt(extendedHex.slice(1), 16) & 0x0000ff})`;
+}
+// hexToRgb('#27ae60') -> 'rgb(39, 174, 96)'
+// hexToRgb('#acd') -> 'rgb(170, 204, 221)'
+isArray
+检查给定参数是否为数组。
+
+使用Array.isArray()检查某个值是否属于数组。
+
+const isArray = val => !!val && Array.isArray(val);
+// isArray(null) -> false
+// isArray([1]) -> true
+isBoolean
+检查给定的参数是否为本机布尔元素。
+
+使用typeof检查某个值是否被归类为布尔基元。
+
+const isBoolean = val => typeof val === 'boolean';
+// isBoolean(null) -> false
+// isBoolean(false) -> true
+isFunction
+检查给定参数是否为函数。
+
+使用typeof检查某个值是否被归类为函数基元。
+
+const isFunction = val => val && typeof val === 'function';
+// isFunction('x') -> false
+// isFunction(x => x) -> true
+isNumber
+检查给定参数是否为数字。
+
+使用typeof检查某个值是否归类为数字基元。
+
+const isNumber = val => typeof val === 'number';
+// isNumber('1') -> false
+// isNumber(1) -> true
+isString
+检查给定参数是否为字符串。
+
+使用typeof检查某个值是否属于字符串基元。
+
+const isString = val => typeof val === 'string';
+// isString(10) -> false
+// isString('10') -> true
+isSymbol
+检查给定参数是否为符号。
+
+使用typeof检查某个值是否被归类为符号基元。
+
+const isSymbol = val => typeof val === 'symbol';
+// isSymbol('x') -> false
+// isSymbol(Symbol('x')) -> true
+RGBToHex
+将 RGB 组件的值转换为 colorcode。
+
+使用按位左移位运算符 (<<) 和toString(16)将给定的 RGB 参数转换为十六进制字符串, 然后padStart(6,’0′)以获取6位十六进制值。
+
+const RGBToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
+// RGBToHex(255, 165, 1) -> 'ffa501'
+timeTaken
+测量执行函数所用的时间。
+
+使用console.time()和console.timeEnd()来测量开始和结束时间之间的差异, 以确定回调执行所用的时间。
+
+const timeTaken = callback => {
+console.time('timeTaken');  const r = callback();
+console.timeEnd('timeTaken');  return r;
+};
+// timeTaken(() => Math.pow(2, 10)) -> 1024
+// (logged): timeTaken: 0.02099609375ms
+toOrdinalSuffix
+将序号后缀添加到数字。
+
+使用模数运算符 (%) 查找单个和十位数字的值。查找匹配的序号模式数字。如果在青少年模式中发现数字, 请使用青少年序号。
+
+const toOrdinalSuffix = num => {
+const int = parseInt(num), digits = [(int % 10), (int % 100)],
+ordinals = ['st', 'nd', 'rd', 'th'], oPattern = [1, 2, 3, 4],
+tPattern = [11, 12, 13, 14, 15, 16, 17, 18, 19];
+return oPattern.includes(digits[0]) && !tPattern.includes(digits[1]) ? int + ordinals[digits[0] - 1] : int + ordinals[3];
+};
+// toOrdinalSuffix("123") -> "123rd"
+UUIDGenerator
+生成 UUID。
+
+使用cryptoAPI 生成 UUID, 符合RFC4122版本4。
+
+const UUIDGenerator = () =>
+([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+);
+// UUIDGenerator() -> '7982fcfe-5721-4632-bede-6000885be57d'
+validateEmail
+如果给定的字符串是有效的电子邮件, 则返回true, 否则为false。
+
+使用正则表达式检查电子邮件是否有效。如果电子邮件有效, 则返回 true, 如果没有, 则返回false。
+
+const validateEmail = str =>
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(str);
+// validateEmail(mymail@gmail.com) -> true
+validateNumber
+如果给定值为数字, 则返回true, 否则为false。
+
+将!isNaN与parseFloat()结合使用, 以检查参数是否为数字。使用isFinite()检查数字是否是有限的。使用Number()检查强制是否保持。
+
+const validateNumber = n => !isNaN(parseFloat(n)) && isFinite(n) && Number(n) == n;
+// validateNumber('10') -> true
+感谢作者分享了大量有用的Javascript片段,本文为中文版翻译，下面一起来看看有哪些精彩的JavaScript代码值得收藏。
+
+原文：https://github.com/Chalarangelo/30-seconds-of-code
+
+作者：Chalarangelo
+
+翻译：http://caibaojian.com/30-seconds-of-code.html
+
+译者：蔡宝坚
+
+本文翻译为前端开发博客所有，如有需要转载，请详细注明以上信息。
