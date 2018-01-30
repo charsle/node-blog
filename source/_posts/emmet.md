@@ -1,9 +1,10 @@
 ---
 title: emmet 用法，超级方面，值得收藏
 date: 2018-01-30 22:58:27
-tags:
+tags: javascript,emmet
 ---
-# 一、简写语法
+
+一、简写语法
 
 Emmet 用和 CSS 选择器相似的语法来描述元素的嵌套层级关系和属性，实现 HTML/XML/CSS 等代码的智能自动补全。
 
@@ -13,7 +14,7 @@ Emmet 用和 CSS 选择器相似的语法来描述元素的嵌套层级关系和
 
 注意：Emmet 语法中的空格表示结束解析，所以书写语句中不能出现空格。
 
-# 1、元素
+1、元素
 
 在编辑器中输入元素名称，即可自动补全生成 HTML 标签，即使不是标准的 HTML 标签。
 
@@ -58,7 +59,7 @@ div>ul>li
 </div>
 
 
-2) Sibling: 使用符号 “+” 生成兄弟元素
+2 Sibling: 使用符号 “+” 生成兄弟元素
 
 
 // before
@@ -69,7 +70,7 @@ div+p+bq
 <p></p>
 <blockquote></blockquote>
 
-3) Climb-up:使用 “^” 生成父元素，与 “>” 相反
+3 Climb-up:使用 “^” 生成父元素，与 “>” 相反
 
 
 // before
@@ -95,7 +96,7 @@ div+div>p>span+em^^^bq
 </div>
 <blockquote></blockquote>
 
-4) Multiplication:使用 “*” 操作符生成多个元素
+4 Multiplication:使用 “*” 操作符生成多个元素
 
 复制代码
 // before
@@ -112,7 +113,7 @@ div>ul>li*5
     </ul>
 </div>
 
-5) Grouping:使用 “()” 操作符将元素分组，实现更复杂的简写任务
+5 Grouping:使用 “()” 操作符将元素分组，实现更复杂的简写任务
 
 
 // before
@@ -136,7 +137,7 @@ div>(header>ul>li*2)+footer>p
 
 在简写时就可以为元素设置属性。
 
-1) id 与 class
+1 id 与 class
 
 简写时，元素与 id 属性值之间用 “#” 分隔，与 class 属性值之间用 “.” 分隔。
 
@@ -149,7 +150,7 @@ div#header+div.page+div#footer.class1.class2.class3
 <div class="page"></div>
 <div id="footer" class="class1 class2 class3"></div>
 
-2) 其他属性
+2 其他属性
 
 使用 [attr] 标记添加其他属性。
 
@@ -164,7 +165,7 @@ td[title='hello' colspan=3]
 不给定属性值，则属性值为""。td[colspan title]将得到 <td colspan="" title=""></td>
 属性值可用单引号或双引号，输出统一为双引号
 如果属性值中没有空格，则引号可省略
-3) 为条目编号
+3 为条目编号
 
 使用 “*” 符号生成的多个元素，可用 “$” 操作符实现从1到 N 自动编号。
 
